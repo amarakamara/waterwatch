@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 
-const TankSchema = new mongoose({
-  productId: String,
-  waterLevel: Number,
-  turbidity: Number,
-  temperature: Number,
+const TankSchema = new mongoose.Schema({
+  waterlevel: { type: Number, default: 0 },
+  temperature: { type: Number, default: 0 },
+  turbidity: { type: Number, default: 0 },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 TankSchema.plugin(passportLocalMongoose);

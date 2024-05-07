@@ -14,12 +14,13 @@ import jwt from "jsonwebtoken";
 const jwtSecret = process.env.JWT_SECRET;
 import passportLocalMongoose from "passport-local-mongoose";
 
-//const thingSpeakChannel = process.env.CHANNEL_ID;
-//const thingSpeakReadKey = process.env.READ_KEY;
+const thingSpeakChannel = process.env.CHANNEL_ID;
+const thingSpeakReadKey = process.env.READ_KEY;
+const thingSpeakWriteKey = process.env.WRITE_KEY;
 
 const port = process.env.PORT || 3001;
 
-import sendEmail from "./utils/sendMail.js";
+//import sendEmail from "./utils/sendMail.js";
 
 // Express config
 const app = express();
@@ -66,12 +67,16 @@ app.use(cors(options));
 
 import User from "./models/User.js";
 import Tank from "./models/Tank.js";
+import History from "./models/History.js";
 
 // Passport config
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+//pump status
+let pumpState = 0;
 
 // socket.io connection
 io.on("connection", (socket) => {
@@ -88,12 +93,18 @@ io.on("connection", (socket) => {
 
       const responseData = await response.json();
 
-      temp = parseInt(responseData.feeds[0].field1);
-      heart = parseInt(responseData.feeds[0].field2);
+      waterLevel = parseInt(responseData.feeds[0].field1);
+      temp = parseInt(responseData.feeds[0].field2);
+      turbidity = parseInt(responseData.feeds[0].field3);
+      pumpStatus = parseInt(responseData.feeds[0].field4);
+
+      pumpState = pumpStatus;
 
       const data = {
+        waterLevel,
         temp,
-        heart,
+        turbidity,
+        pumpStatus,
       };
       socket.emit("sensorData", data);
     } catch (error) {
@@ -119,9 +130,19 @@ io.on("connection", (socket) => {
   });
 
   // Handle stop monitoring event
-  socket.on("stop monitoring", () => {
-    console.log("Monitoring stopped by user");
-    socket.disconnect();
+  socket.on("togglePump", () => {
+    pumpState = !pumpState;
+    const url = `https://api.thingspeak.com/update?api_key=${thingSpeakWriteKey}&field5=${pumpState}`;
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to write data to ThingSpeak");
+        }
+        console.log("Trigger sent");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   });
 
   socket.on("connect_error", (err) => {
@@ -134,166 +155,22 @@ io.on("connection", (socket) => {
   });
 });
 
-//Admin Register Route
+//import routes
+import userRouter from "./routes/user-routes.js";
+import tankRouter from "./routes/tank-routes.js";
+import historyRouter from "./routes/history-routes.js";
+import notificationRouter from "./routes/notification-routes.js";
 
-/**Register*/
+app.use("/users", userRouter);
+app.use("/tanks", tankRouter);
+app.use("/history", historyRouter);
+app.use("/notification", notificationRouter);
 
-const registerAdmin = async () => {
-  const adminAccount = {
-    username: "##$$$###",
-    name: "Admin",
-    password: "#######",
-  };
-
-  try {
-    await Admin.register(adminAccount, adminAccount.password, (err, user) => {
-      if (err) {
-        console.error(err);
-      }
-      /* const token = jwt.sign({ _id: user._id }, jwtSecret, {
-        expiresIn: "1d",
-      });*/
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: "Something went wrong, try again.",
-    });
-  }
-};
-
-//registerAdmin();
-
-//Login
-app.post("/login", (req, res, next) => {
-  passport.authenticate("local", { session: true }, (err, user, info) => {
-    if (err) {
-      console.log("Error in authentication");
-      return res.status(500).json({
-        message: "Something went wrong, try again.",
-        authenticated: false,
-      });
-    }
-    if (!user) {
-      return res.status(401).json({
-        authenticated: false,
-      });
-    }
-
-    const token = jwt.sign({ _id: user._id }, jwtSecret, {
-      expiresIn: "24h",
-    });
-
-    res.status(200).json({
-      user: user,
-      authenticated: true,
-      token: token,
-    });
-  })(req, res, next);
+app.use("/", (req, res, next) => {
+  res.send("This is waterwatch");
 });
 
-//Admin logout Route
-app.get("/logout", (req, res) => {
-  res.status(200).json({ message: "Logged out successfully" });
-});
-
-//Store sensor data to database
-app.post("/health-data", verifyToken, async (req, res) => {
-  const { firstName, lastName, username, weight, height, bmi } = req.body;
-
-  try {
-    const newPatient = new Patient({
-      firstName,
-      lastName,
-      username,
-      weight,
-      height,
-      bmi,
-    });
-
-    await newPatient.save();
-    console.log(`Patient ${username} added`);
-    res.status(200).json(newPatient);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to add patient" });
-  }
-});
-
-//update patient data
-
-app.put("/update-data/:id", verifyToken, async (req, res) => {
-  try {
-    const { temp, heart } = req.body;
-
-    const updatedPatient = await Patient.findOne({ _id: req.params.id });
-
-    if (!updatedPatient) {
-      return res.status(404).send("No user found");
-    }
-
-    updatedPatient.temperatureValue = temp;
-    updatedPatient.heartRate = heart;
-    await updatedPatient.save();
-    res.status(200).send("Value updated");
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-//return sensor data
-app.get("/patient-data/:id", verifyToken, async (req, res) => {
-  const userId = req.params.id;
-  console.log("Id sent for getting info:", userId);
-  try {
-    const patientData = await Patient.findOne({ _id: userId });
-
-    if (!patientData) {
-      return res.status(404).json("No patient with that ID exists.");
-    }
-
-    res.status(200).json(patientData);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-//get all patients
-app.get("/get-patients", verifyToken, async (req, res) => {
-  try {
-    const patients = await Patient.find();
-    return res.status(200).json(patients);
-  } catch (error) {
-    console.error("Error while fetching patients:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-//Delete patient
-
-app.delete("/delete-patient/:id", verifyToken, async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    const deletedPatient = await Patient.findOneAndDelete({ _id: id });
-
-    if (!deletedPatient) {
-      return res
-        .status(404)
-        .json({ message: "No patient with that ID exists." });
-    }
-
-    return res.status(200).json({
-      message: "Patient deleted successfully",
-      id: deletedPatient._id,
-    });
-  } catch (error) {
-    console.error("Error while deleting patient:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-//Share sensor data to email
+/*Share sensor data to email
 app.post("/share-data/:id", verifyToken, async (req, res) => {
   const { recipientmail, recipientname, checked } = req.body;
 
@@ -332,24 +209,7 @@ app.post("/share-data/:id", verifyToken, async (req, res) => {
     return res.status(500).json({ error: "Server Error" });
   }
 });
-
-//verify token
-
-function verifyToken(req, res, next) {
-  const token = req.headers.authorization;
-
-  if (!token) {
-    return res.status(401).json({ message: "User is not authenticated" });
-  }
-
-  jwt.verify(token.split(" ")[1], jwtSecret, (error, decoded) => {
-    if (error) {
-      return res.status(401).json({ message: "Invalid or expired token" });
-    }
-    next();
-  });
-}
-
+*/
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
