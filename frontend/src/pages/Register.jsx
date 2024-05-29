@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, logout } from "../features/auth/authSlice";
+import InputField from "../components/InputField";
+import RegLogButton from "../components/RegLogButton";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -58,25 +60,22 @@ export default function Register() {
         }),
       });
 
-      if (!response.ok) {
-        const responseMessage = await response.json();
-        const errorMessage = await responseMessage.message;
-        setMessage(errorMessage);
-        setShowMessage(true);
-        throw new Error(errorMessage);
-      }
       const data = await response.json();
-      const payload = {
-        jwtToken: data.token,
-        authenticated: data.authenticated,
-      };
-      dispatch(login(payload));
-      localStorage.setItem("authenticated", authenticated);
-      navigate("/home", { replace: true });
+      console.log(data);
+      if (response.ok) {
+        localStorage.setItem("jwtToken", data.token);
+        const payload = {
+          jwtToken: data.token,
+          authenticated: true,
+        };
+        dispatch(login(payload));
+        navigate("/home", { replace: true });
+      } else {
+        throw new Error(data.message);
+      }
     } catch (error) {
-      console.error("Error logging in:", error.message);
+      console.error("Error registering:", error.message);
       setMessage(error.message);
-      dispatch(logout);
       setShowMessage(true);
     }
   };
@@ -89,12 +88,57 @@ export default function Register() {
     <div
       className="w-screen h-screen"
       style={{
-        backgroundImage: "url('/src/assets/tap.jpg')",
-        backgroundSize: "fit",
+        backgroundImage:
+          "url('https://images.pexels.com/photos/7527861/pexels-photo-7527861.jpeg?auto=compress&cs=tinysrgb&w=600')",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="">
-        <form onSubmit={handleSubmit}></form>
+      <div className="bg-gradient-to-t text-white from-blue via-blue via-25% to-transparent w-screen h-screen flex flex-col items-center">
+        <div className="pt-1 w-full h-auto flex justify-center">
+          <img className="w-20" src="/src/assets/white-logo.png" />
+        </div>
+        <div className="w-full h-full  flex flex-col justify-center items-center">
+          <form
+            className="w-80 h-auto bg-blue bg-opacity-5 border-thin p-6 rounded-md text-xl text-center flex flex-col justify-center items-center"
+            onSubmit={handleSubmit}
+          >
+            <h2 className="text-2xl">Create Account</h2>
+            <p className="my-4 text-xs font-extralight">
+              Create account to start monitoring your tank
+            </p>
+            <div>
+              <InputField
+                name="name"
+                type="text"
+                value={registerInfo.name}
+                onChange={handleChange}
+                placeholder="Name:"
+              />
+              <InputField
+                name="email"
+                type="email"
+                value={registerInfo.email}
+                onChange={handleChange}
+                placeholder="Email:"
+              />
+              <InputField
+                name="password"
+                type="password"
+                value={registerInfo.password}
+                onChange={handleChange}
+                placeholder="Password:"
+              />
+            </div>
+            <RegLogButton value="Register" />
+          </form>
+          <a
+            className="font-thin text-md md:text-sm mt-4 md:mt-2"
+            href="/login"
+          >
+            Have an account? Login
+          </a>
+        </div>
       </div>
     </div>
   );

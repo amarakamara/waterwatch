@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         blue: "#074173",
+        lblue: "#0D7BD9",
+        dblue: "#00215E",
       },
       fontFamily: {
         kufam: ["Kufam", "sans-serif"],
@@ -12,6 +14,7 @@ export default {
       },
       borderWidth: {
         0.5: "0.5px",
+        0.1: "0.01px",
       },
       screens: {
         xxs: "240px",
