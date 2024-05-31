@@ -94,13 +94,13 @@ export default function Login() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="bg-gradient-to-t text-white from-blue via-blue via-25% to-transparent w-full h-full flex flex-col">
+      <div className="bg-gradient-to-t text-white from-dblue via-dblue via-25% to-transparent w-full h-full flex flex-col">
         <div className="pt-1 w-full h-auto flex justify-center">
           <img className="w-20" src="/src/assets/white-logo.png" />
         </div>
         <div className="w-full h-full  flex flex-col justify-center items-center">
           <form
-            className="w-80 h-auto bg-blue bg-opacity-5 border-thin p-6 rounded-md text-xl text-center flex flex-col justify-center items-center"
+            className="w-80 h-auto bg-dblue bg-opacity-5 border-thin p-6 rounded-md text-xl text-center flex flex-col justify-center items-center"
             onSubmit={handleSubmit}
           >
             <h2 className="text-2xl">Welcome Back</h2>

@@ -6,7 +6,7 @@ export default {
       colors: {
         blue: "#074173",
         lblue: "#0D7BD9",
-        dblue: "#00215E",
+        dblue: "#070F2B",
       },
       fontFamily: {
         kufam: ["Kufam", "sans-serif"],
@@ -25,6 +25,12 @@ export default {
         xl: "1280px",
         "2xl": "1536px",
       },
+      lineHeight: {
+        1: ".15rem",
+      },
+      fontSize: {
+        "1xs": "0.6rem",
+      },  
     },
   },
   plugins: [],

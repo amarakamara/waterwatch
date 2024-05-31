@@ -10,7 +10,7 @@ function Welcome() {
           "url('https://images.pexels.com/photos/2708177/pexels-photo-2708177.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
       }}
     >
-      <div className="text-white w-full h-full z-10 bg-gradient-to-t from-blue via-blue via-25% to-transparent flex flex-col m-0">
+      <div className="text-white w-full h-full z-10 via-25% to-transparent flex flex-col m-0">
         <div className=" pt-4 w-full h-auto z-20 flex justify-center">
           <img className="w-20" src="/src/assets/White-logo.png" />
         </div>
