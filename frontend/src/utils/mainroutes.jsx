@@ -14,7 +14,7 @@ export default function MainRoutes() {
   return (
     <Routes>
       <Route element={<PrivateRoute />}>
-        <Route path="/home" element={<Home />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/history" element={<History />} />
         <Route path="/prediction" element={<Prediction />} />

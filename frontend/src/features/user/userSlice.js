@@ -1,25 +1,25 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: {},
+  userinfo: {},
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    getUser: (state, action) => {
-      const userInfo = action.payload;
-      if (userInfo) {
-        state.user = userInfo;
+    setUserInfo: (state, action) => {
+      const data = action.payload;
+      if (data) {
+        state.userinfo = data;
       }
     },
-    logout: (state) => {
-      state.user = {};
+    removeUserInfo: (state) => {
+      state.userinfo = {};
     },
   },
 });
 
-export const { getUser, logout } = userSlice.actions; 
+export const { setUserInfo, removeUserInfo } = userSlice.actions;
 
-export default userSlice.reducer; 
+export default userSlice.reducer;

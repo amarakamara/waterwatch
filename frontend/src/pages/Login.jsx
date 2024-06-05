@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../features/auth/authSlice";
 import InputField from "../components/InputField";
 import RegLogButton from "../components/RegLogButton";
+import { MoveLeft } from "lucide-react";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -69,10 +70,10 @@ export default function Login() {
       const payload = {
         jwtToken: data.token,
         authenticated: data.authenticated,
+        uid: data.userId,
       };
       dispatch(login(payload));
-      //localStorage.setItem("authenticated", authenticated);
-      navigate("/home", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       console.error("Error logging in:", error.message);
       setMessage(error.message);
@@ -104,9 +105,10 @@ export default function Login() {
             onSubmit={handleSubmit}
           >
             <h2 className="text-2xl">Welcome Back</h2>
-            <p className="my-4 text-xs font-extralight">
+            <p className="mt-3 my-2 text-xs font-extralight">
               Enter your details to login:
             </p>
+            {showMessage && <p className="text-red-500 text-1xs">{message}</p>}
             <div>
               <InputField
                 name="username"
@@ -127,6 +129,13 @@ export default function Login() {
           </form>
           <a className="font-thin text-md md:text-sm mt-4" href="/register">
             No account? Register
+          </a>
+          <a
+            className="font-thin flex items-center text-xs md:text-1xs mt-4 md:mt-2"
+            href="/"
+          >
+            <MoveLeft size={10} className="pr-1" />
+            Go to home
           </a>
         </div>
       </div>

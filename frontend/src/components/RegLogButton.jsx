@@ -6,7 +6,7 @@ function RegLogButton(props) {
     <button
       type="submit"
       onClick={props.click}
-      className="bg-white font-normal hover:bg-cyan-700 hover:text-white text-sm text-blue py-1 px-4 my-1 w-full rounded"
+      className="bg-white font-normal hover:bg-red-500 hover:text-white text-sm text-dblue py-1 px-4 my-1 w-full rounded"
     >
       {props.value}
     </button>

@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import SharedLayout from "../layouts/SharedLayout";
 
 export default function Notification() {
   return (
-    <div>Notification</div>
-  )
+    <SharedLayout>
+      <div className="bg-white main">This is Notification</div>
+    </SharedLayout>
+  );
 }

@@ -7,7 +7,7 @@ function Welcome() {
       className="w-screen h-screen"
       style={{
         backgroundImage:
-          "url('https://images.pexels.com/photos/2708177/pexels-photo-2708177.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
+          "url('https://img.freepik.com/free-photo/water-drop-blue-background_23-2147828373.jpg?w=900&t=st=1717152245~exp=1717152845~hmac=8b0549beed7e7bbcc35719a6933394439e2bf36cc5b14c04efa07d54a4831e5e')",
       }}
     >
       <div className="text-white w-full h-full z-10 via-25% to-transparent flex flex-col m-0">

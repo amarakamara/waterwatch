@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronFirst, ChevronLast, MoreVertical, LogOut } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 
 const apiBase =
@@ -12,10 +12,12 @@ const apiBase =
 const SidebarContext = createContext();
 
 function SideBar({ children }) {
+  const userData = useSelector((state) => state.user.userinfo);
+
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className="bg-dblue sidebar hidden md:block">
+    <aside className="bg-dblue sidebar hidden md:block sticky   ">
       <nav className="h-full flex flex-col bg-dblue border-r shadow-sm">
         <div className="p-2 flex justify-between items-center">
           <img
@@ -52,8 +54,12 @@ function SideBar({ children }) {
             }`}
           >
             <div className="leading-1 mr-2">
-              <h4 className="font-semibold text-xs l text-white">John Doe</h4>
-              <span className="text-1xs text-gray-400">johndoe@gmail.com</span>
+              <h4 className="font-semibold text-xs l text-white">
+                {userData.name}
+              </h4>
+              <span className="text-1xs text-gray-300">
+                {userData.username}
+              </span>
             </div>
             <MoreVertical size={20} className="text-white" />
           </div>
@@ -63,14 +69,21 @@ function SideBar({ children }) {
   );
 }
 
-function SidebarItem({ icon, active, text, alert }) {
+function SidebarItem({ icon, active, text, alert, onClick }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    onClick();
+  };
+
   const { expanded } = useContext(SidebarContext);
   return (
-    <Link to={`/${text}`}>
+    <Link to={`/${text.toLowerCase()}`}>
       <li
         className={`relative flex items-center p-2 cursor-pointer transition-colors group ${
-          active ? "bg-gray-700" : "bg-transparent"
-        } hover:bg-gray-600 rounded-md`}
+          active ? "bg-red-500" : "bg-transparent"
+        } hover:bg-red-500 rounded-md`}
+        onClick={handleClick}
       >
         {icon && (
           <span className={`${expanded ? "mr-4" : "mr-0"} text-white`}>
@@ -109,7 +122,7 @@ function LogoutButton({ icon, text }) {
   const handleLogout = async () => {
     try {
       const response = await fetch(apiBase + "/users/logout", {
-        method: "GET",
+        method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +142,7 @@ function LogoutButton({ icon, text }) {
   return (
     <button
       onClick={handleLogout}
-      className="relative flex items-center p-2 cursor-pointer text-white group"
+      className="w-full text-left relative flex items-center p-2 cursor-pointer text-white group hover:bg-red-500 rounded-md"
     >
       <span className={`${expanded ? "mr-4" : "mr-0"}`}>{icon}</span>
       <span

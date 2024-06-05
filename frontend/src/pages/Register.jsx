@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../features/auth/authSlice";
 import InputField from "../components/InputField";
 import RegLogButton from "../components/RegLogButton";
+import { MoveLeft } from "lucide-react";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -69,7 +70,7 @@ export default function Register() {
           authenticated: true,
         };
         dispatch(login(payload));
-        navigate("/home", { replace: true });
+        navigate("/dashboard", { replace: true });
       } else {
         throw new Error(data.message);
       }
@@ -107,6 +108,7 @@ export default function Register() {
             <p className="my-4 text-xs font-extralight">
               Create account to start monitoring your tank
             </p>
+            {showMessage && <p className="text-red-500 text-1xs">{message}</p>}
             <div>
               <InputField
                 name="name"
@@ -137,6 +139,13 @@ export default function Register() {
             href="/login"
           >
             Have an account? Login
+          </a>
+          <a
+            className="font-thin flex items-center text-xs md:text-1xs mt-4 md:mt-2"
+            href="/"
+          >
+            <MoveLeft size={10} className="pr-1" />
+            Go to home
           </a>
         </div>
       </div>

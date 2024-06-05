@@ -3,7 +3,7 @@ import React from "react";
 function InputField(props) {
   return (
     <input
-      className="w-full h-30 mb-4 bg-transparent inputField text-xs"
+      className="w-full h-30 mb-4 bg-transparent focus:outline-none focus:bg-transparent inputField text-xs"
       name={props.name}
       value={props.value}
       onChange={props.onChange}
