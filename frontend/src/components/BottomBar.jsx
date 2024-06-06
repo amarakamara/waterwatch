@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function BottomBar({ children }) {
   return (
-    <div className="bg-dblue flex items-center w-full max-h-[4.4rem] px-6 rounded-t-xl mobilebar  md:hidden">
+    <div className="bg-dblue flex items-center w-full max-h-[4.4rem] px-6 rounded-t-xl mobilebar  sticky z-50  md:hidden">
       <ul className="w-full flex justify-center items-center gap-1  relative text-white">
         {children}
       </ul>
