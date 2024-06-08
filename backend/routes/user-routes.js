@@ -7,7 +7,7 @@ import {
   logout,
 } from "../controllers/user-controller.js";
 
-userRouter.get("/:id", getUser);
+userRouter.get("/getuser/:id", getUser);
 userRouter.post("/register", register);
 userRouter.post("/login", login);
 userRouter.post("/logout", logout);

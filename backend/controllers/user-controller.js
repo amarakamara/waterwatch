@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
+import { ObjectId } from "mongodb";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -15,7 +16,7 @@ const getUser = async (req, res, next) => {
       return res.status(404).json({ message: "No user found" });
     }
     delete user.password;
-    return res.status(200).json({ user });
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
@@ -79,10 +80,12 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ _id: user._id }, jwtSecret, { expiresIn: "24h" });
+    const userId = user._id;
 
     return res.status(200).json({
       message: "Login successful",
       token,
+      userId,
       authenticated: true,
     });
   } catch (error) {

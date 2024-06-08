@@ -1,10 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
-const apiBase =
-  import.meta.env.VITE_ENV === "development"
-    ? import.meta.env.VITE_DEV_API_BASE
-    : import.meta.env.VITE_PROD_API_BASE;
-
 const initialState = {
   token: " ",
   userId: null,
