@@ -1,7 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
-  showProfile: true,
+  showProfile: false,
 };
 
 export const windowSlice = createSlice({

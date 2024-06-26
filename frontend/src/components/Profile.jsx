@@ -50,7 +50,7 @@ export default function Profile(props) {
 
   const handleCloseProfile = () => {
     setAnimationClass("animate-slideOut");
-    setTimeout(() => dispatch(closeProfileAction()), 300); // Delay for animation duration
+    setTimeout(() => dispatch(closeProfileAction()), 300);
   };
 
   const handleLogout = async () => {
@@ -76,7 +76,7 @@ export default function Profile(props) {
   return (
     <div
       ref={profileRef}
-      className={`max-h-50 max-w-50 w-50 h-auto absolute top-[2.8rem] right-2 shadow-md bg-red-500 ${animationClass} rounded-lg`}
+      className={`max-h-50 max-w-50 w-50 h-auto absolute top-[2.8rem] right-2 shadow-md bg-red-500 ${animationClass} rounded-lg z-50`}
       style={{ display: show ? "block" : "none" }}
     >
       <div className="w-full p-2 py-2 bg-white text-red-500">

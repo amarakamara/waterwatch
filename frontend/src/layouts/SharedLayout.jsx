@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -20,12 +20,25 @@ const SharedLayout = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const historyData = useSelector((state) => state.history.historyData);
+
+  const [showHistoryAlert, setShowHistoryAlert] = useState(false);
+
+  let prevHistoryDataLength = historyData.length;
+
+  useEffect(() => {
+    if (historyData.length > prevHistoryDataLength) {
+      setShowHistoryAlert(true);
+      prevHistoryDataLength = historyData.length;
+    }
+  }, [historyData]);
 
   const [activePage, setActivePage] = useState("");
 
   useEffect(() => {
     const path = location.pathname.replace("/", "");
     setActivePage(path);
+    setShowHistoryAlert(false);
   }, [location]);
 
   return (
@@ -49,7 +62,7 @@ const SharedLayout = ({ children }) => {
         <SidebarItem
           icon={<History size={20} />}
           text="History"
-          alert={activePage === "history" ? false : true}
+          alert={showHistoryAlert ? true : false}
           active={activePage === "history"}
           onClick={() => setActivePage("history")}
         />
@@ -79,7 +92,7 @@ const SharedLayout = ({ children }) => {
         <BottombarItem
           text="History"
           icon={<History size={30} />}
-          alert={activePage === "history" ? false : true}
+          alert={showHistoryAlert ? true : false}
           active={activePage === "history"}
           onClick={() => setActivePage("history")}
         />

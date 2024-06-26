@@ -4,17 +4,22 @@ import User from "../models/User.js";
 
 const deleteHistory = async (req, res, next) => {
   const historyId = req.params.hid;
+  console.log("history id to delete", historyId);
   const user = await User.findById(req.user._id);
   if (!user) {
     return res.status(404).json("User not found");
   }
 
   try {
+    console.log("In here");
     const history = await History.findOneAndDelete({
       _id: historyId,
-      user: req.user._id,
     });
 
+    if (!history) {
+      return res.status(404).json("History not found");
+    }
+    console.log("History deleted");
     return res.status(200).json({
       message: "History deleted",
       history,
@@ -26,14 +31,15 @@ const deleteHistory = async (req, res, next) => {
 };
 
 const getHistory = async (req, res, next) => {
+  console.log("req.user", req.user);
   const user = await User.findById(req.user._id);
   if (!user) {
     return res.status(404).json("User not found");
   }
 
   try {
-    const histories = await History.find({ user: req.user._id });
-
+    const histories = await History.find();
+    console.log(histories);
     return res.status(200).json({
       message: "Histories retrieved",
       histories,
@@ -44,4 +50,4 @@ const getHistory = async (req, res, next) => {
   }
 };
 
-export {deleteHistory, getHistory };
+export { deleteHistory, getHistory };
