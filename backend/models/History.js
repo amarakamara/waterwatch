@@ -1,30 +1,17 @@
 import mongoose from "mongoose";
 
 const HistorySchema = new mongoose.Schema({
-  waterUsed: {
+  literUsed: {
     type: Number,
     required: true,
   },
-  waterTemperature: {
-    type: Number,
-    required: true,
-  },
-  waterLevel: {
-    type: Number,
-    required: true,
-  },
-  turbidity: {
-    type: Number,
-    required: true,
-  },
-  createdAt: {
+  timestamp: {
     type: Date,
-    default: Date.now,
   },
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
 });
 

@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import Usage from "../models/Usage.js";
+import History from "../models/History.js";
 import User from "../models/User.js";
 
 const addUsage = async (req, res, next) => {
-  const { waterUsage, timestamp, userid } = req.body;
+  const { literUsed, timestamp } = req.body;
 
   const existingUser = User.findById({ _id: req.user._id });
 
@@ -12,11 +13,17 @@ const addUsage = async (req, res, next) => {
   }
   try {
     const newUsage = new Usage({
-      waterUsage,
+      literUsed,
+      timestamp,
+      user: req.user._id,
+    });
+    const newHistory = new History({
+      literUsed,
       timestamp,
       user: req.user._id,
     });
     await newUsage.save();
+    await newHistory.save();
     return res.status(200).json("Usage Data save");
   } catch (error) {
     console.error(err);
@@ -25,7 +32,8 @@ const addUsage = async (req, res, next) => {
 };
 
 const getUsage = async (req, res, next) => {
-  const existingUser = User.findById({ _id: req.user._id });
+  console.log("user object", req.user);
+  const existingUser = User.findById(req.user._id);
   if (!existingUser) {
     return res.status(404).json("User not found");
   }
@@ -51,7 +59,7 @@ const getUsage = async (req, res, next) => {
         $sort: { _id: 1 },
       },
     ]);
-
+    console.log("usage data", waterUsages);
     res.status(200).json(waterUsages);
   } catch (error) {
     res.status(500).send(error.message);

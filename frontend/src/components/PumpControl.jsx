@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { SlidersVertical } from "lucide-react";
+import addWaterUsage from "../apis/addWaterUsage";
 import io from "socket.io-client";
 
 const apiBase =
@@ -17,8 +18,28 @@ const socket = io(apiBase, {
 
 export default function PumpControl() {
   const tankData = useSelector((state) => state.tank.tankinfo);
+  const token = useSelector((state) => state.auth.token);
   const pumpStatus = tankData.pumpState;
   const [pumpstate, setPumpstate] = useState(false);
+  const [startWaterLevel, setStartWaterLevel] = useState(null);
+
+  useEffect(() => {
+    socket.on("pumpStateChanged", (newPumpState) => {
+      setPumpstate(newPumpState);
+      if (newPumpState) {
+        setStartWaterLevel(tankData.waterLevel);
+      } else {
+        const endWaterLevel = tankData.waterLevel;
+        if (startWaterLevel !== null) {
+          const litersUsed = startWaterLevel - endWaterLevel;
+          addWaterUsage(token, litersUsed, new Date());
+        }
+      }
+    });
+    return () => {
+      socket.off("pumpStateChanged");
+    };
+  }, [startWaterLevel, tankData.waterLevel]);
 
   useEffect(() => {
     socket.on("pumpStateChanged", (newPumpState) => {
@@ -50,7 +71,11 @@ export default function PumpControl() {
               {pumpstate ? "OFF" : "ON"}
             </h2>
           </button>
-          <div className=" w-1/2 flex flex-col justify-center text-center h-auto bg-red-500 p-3 rounded-md text-white">
+          <div
+            className={`w-1/2 flex flex-col justify-center text-center h-auto ${
+              pumpstate ? "bg-green-600" : "bg-red-500"
+            } p-3 rounded-md text-white`}
+          >
             <h2 className="font-semibold text-2xl my-2 whitespace-nowrap">
               Pump State
             </h2>

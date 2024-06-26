@@ -2,6 +2,7 @@ import React from "react";
 import Item from "./Item";
 import PumpControl from "./PumpControl";
 import TankLevel from "./TankLevel";
+import UsageChart from "./UsageChart";
 import { Droplet, Droplets, Thermometer, MilkOff } from "lucide-react";
 
 export default function MainContent() {
@@ -29,7 +30,7 @@ export default function MainContent() {
       <div className="border-2 dashboard overflow-y-scroll">
         <PumpControl />
         <TankLevel />
-        <div className="box-3  border bg-white shadow-md rounded-md"></div>
+        <UsageChart />
         <div className="box-4  border bg-white shadow-md rounded-md "></div>
       </div>
     </div>

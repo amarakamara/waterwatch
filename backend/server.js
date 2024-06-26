@@ -183,57 +183,142 @@ app.use("/", (req, res, next) => {
   res.send("This is waterwatch");
 });
 
+/*  
 const dummyData = [
-  {
-    timestamp: "2024-06-07T05:49:55.430240",
-    literUsed: 3,
+{
+"timestamp": "2024-06-25T04:44:39.694698",
+"literUsed": 78
+},
+{
+"timestamp": "2024-06-25T05:44:39.694698",
+"literUsed": 18
+},
+{
+"timestamp": "2024-06-25T06:44:39.694698",
+"literUsed": 50
+},
+{
+"timestamp": "2024-06-25T07:44:39.694698",
+"literUsed": 31
+},
+{
+"timestamp": "2024-06-25T08:44:39.694698",
+"literUsed": 90
+},
+{
+"timestamp": "2024-06-25T09:44:39.694698",
+"literUsed": 25
+},
+{
+"timestamp": "2024-06-25T10:44:39.694698",
+"literUsed": 10
+},
+{
+"timestamp": "2024-06-25T11:44:39.694698",
+"literUsed": 42
+},
+{
+"timestamp": "2024-06-25T12:44:39.694698",
+"literUsed": 65
+},
+{
+"timestamp": "2024-06-25T13:44:39.694698",
+"literUsed": 88
+},
+{
+"timestamp": "2024-06-25T14:44:39.694698",
+"literUsed": 13
+},
+{
+"timestamp": "2024-06-25T15:44:39.694698",
+"literUsed": 29
+},
+{
+"timestamp": "2024-06-25T16:44:39.694698",
+"literUsed": 95
+},
+{
+"timestamp": "2024-06-25T17:44:39.694698",
+"literUsed": 72
+},
+{
+"timestamp": "2024-06-25T18:44:39.694698",
+"literUsed": 12
+},
+{
+"timestamp": "2024-06-25T19:44:39.694698",
+"literUsed": 67
+},
+{
+"timestamp": "2024-06-25T20:44:39.694698",
+"literUsed": 48
+},
+{
+"timestamp": "2024-06-25T21:44:39.694698",
+"literUsed": 82
+},
+{
+"timestamp": "2024-06-25T22:44:39.694698",
+"literUsed": 5
+},
+{
+"timestamp": "2024-06-25T23:44:39.694698",
+"literUsed": 37
+},
+{
+"timestamp": "2024-06-26T00:44:39.694698",
+"literUsed": 19
+},
+{
+    "timestamp": "2024-06-26T01:44:39.694698",
+    "literUsed": 61
   },
   {
-    timestamp: "2024-06-08T04:45:39.430425",
-    literUsed: 2,
+    "timestamp": "2024-06-26T02:44:39.694698",
+    "literUsed": 99
   },
   {
-    timestamp: "2024-06-07T10:38:21.430442",
-    literUsed: 2,
+    "timestamp": "2024-06-26T03:44:39.694698",
+    "literUsed": 40
   },
   {
-    timestamp: "2024-06-07T21:59:33.430456",
-    literUsed: 4,
+    "timestamp": "2024-06-26T04:44:39.694698",
+    "literUsed": 23
   },
   {
-    timestamp: "2024-06-08T01:17:19.430494",
-    literUsed: 7,
+    "timestamp": "2024-06-26T05:44:39.694698",
+    "literUsed": 84
   },
   {
-    timestamp: "2024-06-07T21:40:02.430507",
-    literUsed: 12,
+    "timestamp": "2024-06-26T06:44:39.694698",
+    "literUsed": 15
   },
   {
-    timestamp: "2024-06-07T20:00:37.430519",
-    literUsed: 6,
+    "timestamp": "2024-06-26T07:44:39.694698",
+    "literUsed": 75
   },
   {
-    timestamp: "2024-06-07T15:53:05.430535",
-    literUsed: 4,
+    "timestamp": "2024-06-26T08:44:39.694698",
+    "literUsed": 5
   },
   {
-    timestamp: "2024-06-08T04:28:08.430548",
-    literUsed: 3,
+    "timestamp": "2024-06-26T09:44:39.694698",
+    "literUsed": 34
   },
   {
-    timestamp: "2024-06-07T08:54:26.430561",
-    literUsed: 13,
+    "timestamp": "2024-06-26T10:44:39.694698",
+    "literUsed": 11
   },
 ];
 
 (async () => {
   try {
     for (const data of dummyData) {
-      const newUsage = new Usage(data);
-      await newUsage.save();
+      const newHistory = new History(data);
+      await newHistory.save();
     }
 
-    console.log("Dummy data saved successfully!");
+    console.log("Dummy data saved to history successfully!");
   } catch (error) {
     console.error("Error saving data:", error);
   }

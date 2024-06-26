@@ -1,19 +1,24 @@
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 const jwtSecret = process.env.JWT_SECRET;
 
 function verifyToken(req, res, next) {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  if (!authHeader) {
     return res.status(401).json({ message: "User is not authenticated" });
   }
 
-  jwt.verify(token.split(" ")[1], jwtSecret, (error, decoded) => {
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, jwtSecret, (error, decoded) => {
     if (error) {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
+
+    req.user = decoded;
     next();
   });
 }
