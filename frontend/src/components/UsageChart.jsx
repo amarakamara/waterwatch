@@ -15,8 +15,11 @@ export default function UsageChart() {
   const waterUsageData = useSelector((state) => state.usage.usageData);
   const token = useSelector((state) => state.auth.token);
 
-  //console.log("Water usage data", waterUsageData);
   const [intervalData, setIntervalData] = useState([]);
+
+  useEffect(() => {
+    fetchUsageData(token, dispatch, addUsage);
+  }, []);
 
   //fetch the water usage data
   useEffect(() => {

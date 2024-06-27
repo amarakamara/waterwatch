@@ -6,6 +6,7 @@ import windowReducer from "../features/windows/windowSlice";
 import tankReducer from "../features/tank/tankSlice";
 import usageReducer from "../features/usage/usageSlice";
 import historyReducer from "../features/history/historySlice";
+import notificationReducer from "../features/notification/notificationSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   tank: tankReducer,
   usage: usageReducer,
   history: historyReducer,
+  notification: notificationReducer,
 });
 
 export default rootReducer;

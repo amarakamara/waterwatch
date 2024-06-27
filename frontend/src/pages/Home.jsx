@@ -6,6 +6,7 @@ import { setUserInfo } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import SharedLayout from "../layouts/SharedLayout";
 import MainContent from "../components/MainContent";
+import addNotification from "../apis/addNotification";
 import io from "socket.io-client";
 
 const apiBase =
@@ -21,9 +22,9 @@ const socket = io(apiBase, {
 });
 
 function Home() {
-  const uid = useSelector((state) => state.auth.userId);
+  const { uid, token } = useSelector((state) => state.auth);
   const userInformation = useSelector((state) => state.user.userinfo);
-  const tankInformation = useSelector((state) => state.tank.tankinfo);
+  const tankData = useSelector((state) => state.tank.tankinfo);
 
   const dispatch = useDispatch();
 
@@ -70,6 +71,61 @@ function Home() {
     }
   }, [socket]);
 
+  /*handle notifications
+  const createNotification = (subject, message) => {
+    const notification = {
+      subject,
+      message,
+      timestamp: new Date().toISOString(),
+    };
+    addNotification(token, notification);
+  };
+
+
+  //adds a notification for high turbidity level
+  useEffect(() => {
+    if (tankData.turbidity !== undefined) {
+      if (tankData.turbidity > 5) {
+        createNotification(
+          "Critical High Turbidity Alert",
+          `Alert: Water turbidity level is dangerously high. Current turbidity: ${tankData.turbidity}. Immediate action required.`
+        );
+      } else if (tankData.turbidity > 1) {
+        createNotification(
+          "High Turbidity Alert",
+          `Alert: Water turbidity level has exceeded the safe threshold. Current turbidity: ${tankData.turbidity}. Please check the water quality.`
+        );
+      }
+    }
+  }, [tankData.turbidity]);
+*/
+  /*
+  //adds a notification for high temperature
+  useEffect(() => {
+    if (tankData.temperature !== undefined) {
+      if (tankData.temperature > 35) {
+        createNotification(
+          "Critical High Temperature Alert",
+          `Alert: Water temperature is critically high. Current temperature: ${tankData.temperature}. Immediate action required.`
+        );
+      } else if (tankData.temperature > 30) {
+        createNotification(
+          "High Temperature Alert",
+          `Alert: Water temperature has risen above the safe limit. Current temperature: ${tankData.temperature}. Please check the system.`
+        );
+      }
+    }
+  }, [tankData.temperature]);
+  //adds a notification for leakage
+  useEffect(() => {
+    if (tankData.leakage !== undefined && tankData.leakage) {
+      createNotification(
+        "Leakage Detected",
+        "Alert: Leakage detected in the system. Immediate inspection needed to prevent water loss."
+      );
+    }
+  }, [tankData.leakage]);
+  */
   return (
     <SharedLayout>
       <MainContent />

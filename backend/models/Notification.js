@@ -9,7 +9,7 @@ const NotificationSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  date: {
+  timestamp: {
     required: true,
     type: Date,
     default: Date.now(),

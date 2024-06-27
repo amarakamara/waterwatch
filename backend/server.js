@@ -183,146 +183,107 @@ app.use("/", (req, res, next) => {
   res.send("This is waterwatch");
 });
 
-/*  
+/*
 const dummyData = [
-{
-"timestamp": "2024-06-25T04:44:39.694698",
-"literUsed": 78
-},
-{
-"timestamp": "2024-06-25T05:44:39.694698",
-"literUsed": 18
-},
-{
-"timestamp": "2024-06-25T06:44:39.694698",
-"literUsed": 50
-},
-{
-"timestamp": "2024-06-25T07:44:39.694698",
-"literUsed": 31
-},
-{
-"timestamp": "2024-06-25T08:44:39.694698",
-"literUsed": 90
-},
-{
-"timestamp": "2024-06-25T09:44:39.694698",
-"literUsed": 25
-},
-{
-"timestamp": "2024-06-25T10:44:39.694698",
-"literUsed": 10
-},
-{
-"timestamp": "2024-06-25T11:44:39.694698",
-"literUsed": 42
-},
-{
-"timestamp": "2024-06-25T12:44:39.694698",
-"literUsed": 65
-},
-{
-"timestamp": "2024-06-25T13:44:39.694698",
-"literUsed": 88
-},
-{
-"timestamp": "2024-06-25T14:44:39.694698",
-"literUsed": 13
-},
-{
-"timestamp": "2024-06-25T15:44:39.694698",
-"literUsed": 29
-},
-{
-"timestamp": "2024-06-25T16:44:39.694698",
-"literUsed": 95
-},
-{
-"timestamp": "2024-06-25T17:44:39.694698",
-"literUsed": 72
-},
-{
-"timestamp": "2024-06-25T18:44:39.694698",
-"literUsed": 12
-},
-{
-"timestamp": "2024-06-25T19:44:39.694698",
-"literUsed": 67
-},
-{
-"timestamp": "2024-06-25T20:44:39.694698",
-"literUsed": 48
-},
-{
-"timestamp": "2024-06-25T21:44:39.694698",
-"literUsed": 82
-},
-{
-"timestamp": "2024-06-25T22:44:39.694698",
-"literUsed": 5
-},
-{
-"timestamp": "2024-06-25T23:44:39.694698",
-"literUsed": 37
-},
-{
-"timestamp": "2024-06-26T00:44:39.694698",
-"literUsed": 19
-},
-{
-    "timestamp": "2024-06-26T01:44:39.694698",
-    "literUsed": 61
+  {
+    "timestamp": "2024-06-26T03:12:47.234567",
+    "literUsed": 47
   },
   {
-    "timestamp": "2024-06-26T02:44:39.694698",
-    "literUsed": 99
+    "timestamp": "2024-06-26T08:29:12.987654",
+    "literUsed": 73
   },
   {
-    "timestamp": "2024-06-26T03:44:39.694698",
-    "literUsed": 40
+    "timestamp": "2024-06-26T11:43:58.123456",
+    "literUsed": 22
   },
   {
-    "timestamp": "2024-06-26T04:44:39.694698",
-    "literUsed": 23
+    "timestamp": "2024-06-26T14:07:21.876543",
+    "literUsed": 91
   },
   {
-    "timestamp": "2024-06-26T05:44:39.694698",
-    "literUsed": 84
+    "timestamp": "2024-06-26T16:31:45.654321",
+    "literUsed": 39
   },
   {
-    "timestamp": "2024-06-26T06:44:39.694698",
-    "literUsed": 15
+    "timestamp": "2024-06-26T19:56:09.432109",
+    "literUsed": 64
   },
   {
-    "timestamp": "2024-06-26T07:44:39.694698",
+    "timestamp": "2024-06-26T23:19:33.210876",
+    "literUsed": 18
+  },
+  {
+    "timestamp": "2024-06-27T02:43:57.987654",
+    "literUsed": 52
+  },
+  {
+    "timestamp": "2024-06-27T06:08:21.765432",
+    "literUsed": 80
+  },
+  {
+    "timestamp": "2024-06-27T09:32:45.543210",
+    "literUsed": 11
+  },
+  {
+    "timestamp": "2024-06-27T12:57:09.321087",
+    "literUsed": 68
+  },
+  {
+    "timestamp": "2024-06-27T16:21:33.108765",
+    "literUsed": 25
+  },
+  {
+    "timestamp": "2024-06-27T19:46:57.876543",
+    "literUsed": 98
+  },
+  {
+    "timestamp": "2024-06-26T06:55:18.432109",
+    "literUsed": 58
+  },
+  {
+    "timestamp": "2024-06-26T10:19:42.210876",
+    "literUsed": 31
+  },
+  {
+    "timestamp": "2024-06-26T13:44:06.987654",
     "literUsed": 75
   },
   {
-    "timestamp": "2024-06-26T08:44:39.694698",
-    "literUsed": 5
+    "timestamp": "2024-06-26T17:08:30.765432",
+    "literUsed": 10
   },
   {
-    "timestamp": "2024-06-26T09:44:39.694698",
-    "literUsed": 34
+    "timestamp": "2024-06-26T20:33:54.543210",
+    "literUsed": 43
   },
   {
-    "timestamp": "2024-06-26T10:44:39.694698",
-    "literUsed": 11
+    "timestamp": "2024-06-27T00:58:18.321087",
+    "literUsed": 85
   },
+  {
+    "timestamp": "2024-06-27T04:22:42.108765",
+    "literUsed": 61
+  },
+  // You can add more entries here following the same format
 ];
+
+
 
 (async () => {
   try {
     for (const data of dummyData) {
-      const newHistory = new History(data);
-      await newHistory.save();
+      const newUsage = new Usage(data);
+      await newUsage.save();
     }
 
-    console.log("Dummy data saved to history successfully!");
+    console.log("Dummy data saved to usage successfully!");
   } catch (error) {
     console.error("Error saving data:", error);
   }
 })();
+
+*/
 
 /*Share sensor data to email
 app.post("/share-data/:id", verifyToken, async (req, res) => {

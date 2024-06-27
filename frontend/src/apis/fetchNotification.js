@@ -3,9 +3,9 @@ const apiBase =
     ? import.meta.env.VITE_DEV_API_BASE
     : import.meta.env.VITE_PROD_API_BASE;
 
-const fetchUsageData = async (token, dispatch, addUsage) => {
+const fetchNotification = async (token, dispatch, addNotification) => {
   try {
-    const response = await fetch(`${apiBase}/usage/`, {
+    const response = await fetch(`${apiBase}/notification/`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -14,13 +14,13 @@ const fetchUsageData = async (token, dispatch, addUsage) => {
       },
     });
     if (!response.ok) {
-      throw new Error("Error fetching water usage data");
+      throw new Error("Error fetching notification data");
     }
     const data = await response.json();
-    dispatch(addUsage(data));
+    dispatch(addNotification(data.notifications));
   } catch (error) {
     console.error(error);
   }
 };
 
-export default fetchUsageData;
+export default fetchNotification;

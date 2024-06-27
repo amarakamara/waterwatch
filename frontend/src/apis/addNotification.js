@@ -3,9 +3,9 @@ const apiBase =
     ? import.meta.env.VITE_DEV_API_BASE
     : import.meta.env.VITE_PROD_API_BASE;
 
-const addWaterUsage = async (token, literUsed, timestamp) => {
+const addNotification = async (token, notification) => {
   try {
-    const response = await fetch(`${apiBase}/usage/add`, {
+    const response = await fetch(`${apiBase}/notification/add`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -13,8 +13,9 @@ const addWaterUsage = async (token, literUsed, timestamp) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        literUsed: literUsed,
-        timestamp: timestamp,
+        subject: notification.subject,
+        message: notification.message,
+        timestamp: notification.timestamp,
       }),
     });
     if (!response.ok) {
@@ -25,4 +26,4 @@ const addWaterUsage = async (token, literUsed, timestamp) => {
   }
 };
 
-export default addWaterUsage;
+export default addNotification;

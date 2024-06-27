@@ -3,9 +3,9 @@ const apiBase =
     ? import.meta.env.VITE_DEV_API_BASE
     : import.meta.env.VITE_PROD_API_BASE;
 
-const deleteHistory = async (token, dispatch, removeHistory, id) => {
+const deleteNotification = async (token, dispatch, removeNotification, id) => {
   try {
-    const response = await fetch(`${apiBase}/history/delete/${id}`, {
+    const response = await fetch(`${apiBase}/notification/delete/${id}`, {
       method: "DELETE",
       credentials: "include",
       headers: {
@@ -15,12 +15,12 @@ const deleteHistory = async (token, dispatch, removeHistory, id) => {
     });
 
     if (!response.ok) {
-      throw new Error("Error deleting water usage history");
+      throw new Error("Error deleting notification");
     }
-    dispatch(removeHistory(id));
+    dispatch(removeNotification(id));
   } catch (error) {
-    console.error("Error deleting water usage history:", error);
+    console.error("Error deleting notification:", error);
   }
 };
 
-export default deleteHistory;
+export default deleteNotification;

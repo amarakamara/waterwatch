@@ -32,14 +32,9 @@ const addUsage = async (req, res, next) => {
 };
 
 const getUsage = async (req, res, next) => {
-  console.log("user object", req.user);
-  const existingUser = User.findById(req.user._id);
-  if (!existingUser) {
-    return res.status(404).json("User not found");
-  }
   try {
     const now = new Date();
-    const twentyFourHoursAgo = new Date(now - 24 * 60 * 60 * 1000);
+    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
     const waterUsages = await Usage.aggregate([
       {
@@ -59,10 +54,11 @@ const getUsage = async (req, res, next) => {
         $sort: { _id: 1 },
       },
     ]);
-    console.log("usage data", waterUsages);
-    res.status(200).json(waterUsages);
+
+    return res.status(200).json(waterUsages);
   } catch (error) {
-    res.status(500).send(error.message);
+    console.error("Error fetching water usage:", error);
+    return res.status(500).send(error.message);
   }
 };
 

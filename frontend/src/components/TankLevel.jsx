@@ -62,7 +62,7 @@ const TankLevel = () => {
             </span>
             <h3 className="text-sm md:text-lg font-semibold flex gap-1">
               <Droplets className="text-red-500" />
-              Liters Used: {tankData.waterLevel - 25} ltrs
+              Liters Used: {25 - tankData.waterLevel} ltrs
             </h3>
             <h3 className="text-sm md:text-lg mb-6 md:mb-0 font-semibold flex gap-1">
               <BadgeCheck className="text-red-500" />
