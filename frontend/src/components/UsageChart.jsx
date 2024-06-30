@@ -11,6 +11,7 @@ import { addUsage } from "../features/usage/usageSlice";
 ReactFC.fcRoot(FusionCharts, charts, Widgets, FusionTheme);
 
 export default function UsageChart() {
+  const isMobile = window.innerWidth <= 768;
   const dispatch = useDispatch();
   const waterUsageData = useSelector((state) => state.usage.usageData);
   const token = useSelector((state) => state.auth.token);
@@ -91,7 +92,7 @@ export default function UsageChart() {
         <ReactFC
           type="column2d"
           width="100%"
-          height="70%"
+          height={isMobile ? "50%" : "70%"}
           dataFormat="JSON"
           dataSource={dataSource}
         />

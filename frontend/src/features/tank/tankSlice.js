@@ -2,6 +2,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
   tankinfo: {},
+  pump: false,
 };
 
 export const tankSlice = createSlice({
@@ -14,12 +15,15 @@ export const tankSlice = createSlice({
         state.tankinfo = data;
       }
     },
+    updatePump: (state, action) => {
+      state.pump = action.payload;
+    },
     clearTankData: (state) => {
       state.tankinfo = {};
     },
   },
 });
 
-export const { setTankData, clearTankData } = tankSlice.actions;
+export const { setTankData, clearTankData, updatePump } = tankSlice.actions;
 
 export default tankSlice.reducer;

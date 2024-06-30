@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { SlidersVertical } from "lucide-react";
+import { setHistoryAlert } from "../features/alert/alertSlice";
 import addWaterUsage from "../apis/addWaterUsage";
+import { updatePump } from "../features/tank/tankSlice";
 import io from "socket.io-client";
 
 const apiBase =
@@ -17,38 +19,39 @@ const socket = io(apiBase, {
 });
 
 export default function PumpControl() {
+  const dispatch = useDispatch();
   const tankData = useSelector((state) => state.tank.tankinfo);
   const token = useSelector((state) => state.auth.token);
-  const pumpStatus = tankData.pumpState;
-  const [pumpstate, setPumpstate] = useState(false);
+  const pumpState = useSelector((state) => state.tank.pump);
   const [startWaterLevel, setStartWaterLevel] = useState(null);
+  const [endWaterLevel, setEndWaterLevel] = useState(null);
 
   useEffect(() => {
     socket.on("pumpStateChanged", (newPumpState) => {
-      setPumpstate(newPumpState);
+      dispatch(updatePump(newPumpState));
       if (newPumpState) {
         setStartWaterLevel(tankData.waterLevel);
       } else {
-        const endWaterLevel = tankData.waterLevel;
+        const now = new Date();
+        const formattedTime = now.toISOString();
+        setEndWaterLevel(tankData.waterLevel);
         if (startWaterLevel !== null) {
           const litersUsed = startWaterLevel - endWaterLevel;
-          addWaterUsage(token, litersUsed, new Date());
+          const success = addWaterUsage(token, litersUsed, formattedTime);
+          if (success) {
+            dispatch(setHistoryAlert(true));
+          } else {
+            dispatch(setHistoryAlert(false));
+          }
+          setEndWaterLevel(0);
         }
       }
     });
+
     return () => {
       socket.off("pumpStateChanged");
     };
   }, [startWaterLevel, tankData.waterLevel]);
-
-  useEffect(() => {
-    socket.on("pumpStateChanged", (newPumpState) => {
-      setPumpstate(newPumpState);
-    });
-    return () => {
-      socket.off("pumpStateChanged");
-    };
-  }, []);
 
   const handleClick = () => {
     socket.emit("togglePump");
@@ -64,22 +67,22 @@ export default function PumpControl() {
           <button
             onClick={handleClick}
             className={`w-10 h-10 p-16  text-white ${
-              pumpstate ? "bg-red-700" : "bg-green-600"
+              pumpState ? "bg-red-700" : "bg-green-600"
             } shadow-md border-8 border-red-200 border-opacity-2 rounded-full m-1 md:m-3 text-center flex items-center justify-center`}
           >
             <h2 className="font-bold text-md md:font-semibold whitespace-nowrap">
-              {pumpstate ? "OFF" : "ON"}
+              {pumpState ? "OFF" : "ON"}
             </h2>
           </button>
           <div
             className={`w-1/2 flex flex-col justify-center text-center h-auto ${
-              pumpstate ? "bg-green-600" : "bg-red-500"
+              pumpState ? "bg-green-600" : "bg-red-500"
             } p-3 rounded-md text-white`}
           >
             <h2 className="font-semibold text-2xl my-2 whitespace-nowrap">
               Pump State
             </h2>
-            <h3 className="text-lg">{pumpstate ? "OPEN" : "CLOSED"}</h3>
+            <h3 className="text-lg">{pumpState ? "OPEN" : "CLOSED"}</h3>
           </div>
         </div>
       </div>

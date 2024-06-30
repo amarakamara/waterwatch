@@ -7,6 +7,7 @@ import tankReducer from "../features/tank/tankSlice";
 import usageReducer from "../features/usage/usageSlice";
 import historyReducer from "../features/history/historySlice";
 import notificationReducer from "../features/notification/notificationSlice";
+import alertReducer from "../features/alert/alertSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   usage: usageReducer,
   history: historyReducer,
   notification: notificationReducer,
+  alert: alertReducer,
 });
 
 export default rootReducer;

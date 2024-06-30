@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { setTankData } from "../features/tank/tankSlice";
 import { setUserInfo } from "../features/user/userSlice";
+import { setNotificationAlert } from "../features/alert/alertSlice";
 import { useNavigate } from "react-router-dom";
 import SharedLayout from "../layouts/SharedLayout";
 import MainContent from "../components/MainContent";
@@ -78,7 +79,12 @@ function Home() {
       message,
       timestamp: new Date().toISOString(),
     };
-    addNotification(token, notification);
+    const success = addNotification(token, notification);
+    if (success) {
+      dispatch(setNotificationAlert(true))
+    } else {
+      dispatch(setNotificationAlert(false))
+    }
   };
 
 

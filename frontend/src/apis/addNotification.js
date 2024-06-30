@@ -21,6 +21,8 @@ const addNotification = async (token, notification) => {
     if (!response.ok) {
       throw new Error("Error adding water usage data");
     }
+    const success = true;
+    return success;
   } catch (error) {
     console.error(error);
   }

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import {
+  setNotificationAlert,
+  setHistoryAlert,
+} from "../features/alert/alertSlice";
 import SideBar, { SidebarItem, LogoutButton } from "../components/SideBar";
 import BottomBar, { BottombarItem } from "../components/BottomBar";
 import TopBar from "../components/TopBar";
@@ -19,39 +22,25 @@ const SharedLayout = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const historyData = useSelector((state) => state.history.historyData);
-  const notificationData = useSelector(
-    (state) => state.notification.notificationData
+  const { notificationAlert, historyAlert } = useSelector(
+    (state) => state.alert
   );
-
-  const [showHistoryAlert, setShowHistoryAlert] = useState(false);
-  const [showNotificationAlert, setShowNotificationAlert] = useState(false);
-  const [prevHistoryDataLength, setPrevHistoryDataLength] = useState(
-    historyData.length
-  );
-  const [prevNotificationDataLength, setPrevNotificationDataLength] = useState(
-    notificationData.length
-  );
-
-  useEffect(() => {
-    if (historyData.length > prevHistoryDataLength) {
-      setShowHistoryAlert(true);
-      setPrevHistoryDataLength(historyData.length);
-    }
-  }, [historyData, prevHistoryDataLength]);
-
-  useEffect(() => {
-    if (notificationData.length > prevNotificationDataLength) {
-      setShowNotificationAlert(true);
-      setPrevNotificationDataLength(notificationData.length);
-    }
-  }, [notificationData, prevNotificationDataLength]);
 
   const [activePage, setActivePage] = useState("");
 
   useEffect(() => {
     const path = location.pathname.replace("/", "");
     setActivePage(path);
+  }, [location]);
+
+  // New useEffect hook for resetting alerts on route change
+  useEffect(() => {
+    const { pathname } = location;
+    if (pathname === "/history") {
+      dispatch(setHistoryAlert(false));
+    } else if (pathname === "/notification") {
+      dispatch(setNotificationAlert(false));
+    }
   }, [location]);
 
   return (
@@ -67,20 +56,20 @@ const SharedLayout = ({ children }) => {
         <SidebarItem
           icon={<Bell size={20} />}
           text="Notification"
-          alert={showNotificationAlert}
+          alert={notificationAlert}
           active={activePage === "notification"}
           onClick={() => {
-            setShowNotificationAlert(false);
+            setNotificationAlert(false);
             navigate("/notification");
           }}
         />
         <SidebarItem
           icon={<History size={20} />}
           text="History"
-          alert={showHistoryAlert}
+          alert={historyAlert}
           active={activePage === "history"}
           onClick={() => {
-            setShowHistoryAlert(false);
+            setHistoryAlert(false);
             navigate("/history");
           }}
         />
@@ -114,10 +103,10 @@ const SharedLayout = ({ children }) => {
         <BottombarItem
           text="History"
           icon={<History size={30} />}
-          alert={showHistoryAlert}
+          alert={historyAlert}
           active={activePage === "history"}
           onClick={() => {
-            setShowHistoryAlert(false);
+            setHistoryAlert(false);
             navigate("/history");
           }}
         />
@@ -130,10 +119,10 @@ const SharedLayout = ({ children }) => {
         <BottombarItem
           text="Notification"
           icon={<Bell size={30} />}
-          alert={showNotificationAlert}
+          alert={notificationAlert}
           active={activePage === "notification"}
           onClick={() => {
-            setShowNotificationAlert(false);
+            setNotificationAlert(false);
             navigate("/notification");
           }}
         />

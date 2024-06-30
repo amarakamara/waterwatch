@@ -77,16 +77,13 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//pump status
-let pumpState = 0;
-
 // socket.io connection
 io.on("connection", (socket) => {
   let waterLevel = 0;
   let temp = 0;
   let turbidity = 0;
   let leakage = false;
-  let pumpState = true;
+  let pumpState = false;
   const fetchThingSpeakData = async () => {
     try {
       /*
@@ -105,20 +102,9 @@ io.on("connection", (socket) => {
       */
 
       // Generating random values for testing
-      waterLevel = Math.floor(Math.random() * 26); // Random value between 0 and 25
-      temp = Math.floor(Math.random() * 41); // Random value between 0 and 40 (assuming temperature in Celsius)
-      turbidity = Math.floor(Math.random() * 101); // Random value between 0 and 100 (assuming turbidity percentage)
-      //pumpState = Math.random() < 0.5 ? 0 : 1; // Random 0 or 1
-      // leakageStatus = Math.random() < 0.5 ? 0 : 1; // Random 0 or 1
-
-      /*if (leakageStatus === 1) {
-        leakage = true;
-      }
-
-      if (pumpStatus === 1) {
-        pumpState = true;
-      }*/
-
+      waterLevel = Math.floor(Math.random() * 26);
+      temp = Math.floor(Math.random() * 41);
+      turbidity = Math.floor(Math.random() * 101);
       const data = {
         waterLevel,
         temp,
@@ -126,7 +112,7 @@ io.on("connection", (socket) => {
         pumpState,
         leakage,
       };
-      console.log(data);
+      //console.log(data);
 
       socket.emit("tankData", data);
     } catch (error) {
@@ -138,8 +124,6 @@ io.on("connection", (socket) => {
 
   const intervalId = setInterval(fetchThingSpeakData, 9000);
 
-  // Handle togglePump event
-  socket.emit("pumpStateChanged", pumpState);
   socket.on("togglePump", () => {
     pumpState = !pumpState;
     socket.emit("pumpStateChanged", pumpState);
@@ -270,9 +254,12 @@ const dummyData = [
 
 
 
-(async () => {
+ 
+    (async () => {
   try {
-    for (const data of dummyData) {
+    await Usage.deleteMany();
+    console.log("Deleted all usage entries successfully!");
+     for (const data of dummyData) {
       const newUsage = new Usage(data);
       await newUsage.save();
     }
@@ -282,7 +269,6 @@ const dummyData = [
     console.error("Error saving data:", error);
   }
 })();
-
 */
 
 /*Share sensor data to email
