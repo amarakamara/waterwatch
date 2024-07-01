@@ -32,8 +32,11 @@ export default function PumpControl() {
       if (newPumpState) {
         setStartWaterLevel(tankData.waterLevel);
       } else {
-        const now = new Date();
-        const formattedTime = now.toISOString();
+        const date = new Date();
+        const localTimeOffset = date.getTimezoneOffset() * 60000;
+        const localTime = new Date(date.getTime() - localTimeOffset);
+        const formattedTime = localTime.toISOString().slice(0, -1);
+        console.log("Formatted time:", formattedTime);
         setEndWaterLevel(tankData.waterLevel);
         if (startWaterLevel !== null) {
           const litersUsed = startWaterLevel - endWaterLevel;
@@ -63,26 +66,33 @@ export default function PumpControl() {
         <h2 className="font-bold text-base md:font-semibold text-red-500 whitespace-nowrap flex justify-center gap-3 text-center">
           PUMP CONTROL <SlidersVertical />
         </h2>
-        <div className="w-full h-auto mt-10 flex justify-center items-center pr-8 gap-10">
-          <button
-            onClick={handleClick}
-            className={`w-10 h-10 p-16  text-white ${
-              pumpState ? "bg-red-700" : "bg-green-600"
-            } shadow-md border-8 border-red-200 border-opacity-2 rounded-full m-1 md:m-3 text-center flex items-center justify-center`}
-          >
-            <h2 className="font-bold text-md md:font-semibold whitespace-nowrap">
-              {pumpState ? "OFF" : "ON"}
-            </h2>
-          </button>
-          <div
-            className={`w-1/2 flex flex-col justify-center text-center h-auto ${
-              pumpState ? "bg-green-600" : "bg-red-500"
-            } p-3 rounded-md text-white`}
-          >
-            <h2 className="font-semibold text-2xl my-2 whitespace-nowrap">
-              Pump State
-            </h2>
-            <h3 className="text-lg">{pumpState ? "OPEN" : "CLOSED"}</h3>
+        <div className="w-full h-full flex flex-col justify-even items-center">
+          <div className="w-full h-auto mt-10 flex justify-center items-center pr-8 gap-10">
+            <button
+              onClick={handleClick}
+              className={`w-10 h-10 p-16  text-white ${
+                pumpState ? "bg-red-700" : "bg-green-600"
+              } shadow-md border-8 border-red-200 border-opacity-2 rounded-full m-1 md:m-3 text-center flex items-center justify-center`}
+            >
+              <h2 className="font-bold text-md md:font-semibold whitespace-nowrap">
+                {pumpState ? "OFF" : "ON"}
+              </h2>
+            </button>
+            <div
+              className={`w-1/2 flex flex-col justify-center text-center h-auto ${
+                pumpState ? "bg-green-600" : "bg-red-500"
+              } p-3 rounded-md text-white`}
+            >
+              <h2 className="font-semibold text-2xl my-2 whitespace-nowrap">
+                Pump State
+              </h2>
+              <h3 className="text-lg">{pumpState ? "OPEN" : "CLOSED"}</h3>
+            </div>
+          </div>
+          <div className="w-full  mt-12">
+            <p className="text-center text-xs text-gray-400">
+              *This only controls the pump that supplies your household
+            </p>
           </div>
         </div>
       </div>

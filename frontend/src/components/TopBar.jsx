@@ -10,7 +10,7 @@ export default function TopBar(props) {
     dispatch(openUserProfile());
   };
   return (
-    <div className="bg-dblue header flex justify-end items-center sticky top-0 z-50">
+    <div className="bg-dblue header flex justify-end items-center sticky top-0 z-[100]">
       <span className="px-6 py-44 md:hidden">
         <img
           onClick={showProfile}

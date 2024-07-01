@@ -6,31 +6,38 @@ import User from "../models/User.js";
 const addUsage = async (req, res, next) => {
   const { literUsed, timestamp } = req.body;
 
-  const existingUser = User.findById({ _id: req.user._id });
+  const existingUser = await User.findById({ _id: req.user._id });
 
   if (!existingUser) {
     return res.status(404).json("User not found");
   }
   try {
+    const parsedTimestamp = new Date(timestamp);
+    if (isNaN(parsedTimestamp.getTime())) {
+      return res.status(400).json("Invalid timestamp");
+    }
+
+    console.log("Timestamp before saving:", timestamp);
+    console.log("Parsed timestamp:", parsedTimestamp);
+
     const newUsage = new Usage({
       literUsed,
-      timestamp,
+      timestamp: parsedTimestamp,
       user: req.user._id,
     });
     const newHistory = new History({
       literUsed,
-      timestamp,
+      timestamp: parsedTimestamp,
       user: req.user._id,
     });
     await newUsage.save();
     await newHistory.save();
-    return res.status(200).json("Usage Data save");
+    return res.status(200).json("Usage Data saved");
   } catch (error) {
-    console.error(err);
+    console.error(error);
     return res.status(500).json("Error adding usage data");
   }
 };
-
 const getUsage = async (req, res, next) => {
   try {
     const now = new Date();
@@ -43,10 +50,15 @@ const getUsage = async (req, res, next) => {
         },
       },
       {
-        $group: {
-          _id: {
-            $hour: "$timestamp",
+        $addFields: {
+          localTime: {
+            $subtract: ["$timestamp", new Date().getTimezoneOffset() * 60000],
           },
+        },
+      },
+      {
+        $group: {
+          _id: { $hour: "$localTime" },
           totalLiters: { $sum: "$literUsed" },
         },
       },

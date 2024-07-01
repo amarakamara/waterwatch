@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Notification from "../models/Notification.js";
 import User from "../models/User.js";
+import sendNotification from "../utils/sendNotification.js";
 
 const addNotification = async (req, res, next) => {
   const { subject, message } = req.body;
@@ -11,12 +12,19 @@ const addNotification = async (req, res, next) => {
   }
 
   try {
-    const notification = new Notification({
+    const newNotification = new Notification({
       subject,
       message,
       user: req.user._id,
     });
-    await notification.save();
+    await newNotification.save();
+
+    const notification = {
+      subject,
+      message,
+    };
+    const email = existingUser.username;
+    await sendNotification(email, notification);
     return res
       .status(200)
       .json({ message: "Notification added", notification });

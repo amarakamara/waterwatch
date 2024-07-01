@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ChevronFirst, ChevronLast, MoreVertical, LogOut } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
+import { closeProfile as closeProfileAction } from "../features/windows/windowSlice";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -131,6 +132,7 @@ function LogoutButton({ icon, text }) {
 
       if (response.ok) {
         dispatch(logout());
+        dispatch(closeProfileAction());
         localStorage.clear();
         navigate("/welcome", { replace: true });
       }

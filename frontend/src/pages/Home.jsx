@@ -93,10 +93,10 @@ function Home() {
     if (tankData.turbidity !== undefined) {
       if (tankData.turbidity > 5) {
         createNotification(
-          "Critical High Turbidity Alert",
+          "Critically High Turbidity Alert",
           `Alert: Water turbidity level is dangerously high. Current turbidity: ${tankData.turbidity}. Immediate action required.`
         );
-      } else if (tankData.turbidity > 1) {
+      } else if (tankData.turbidity > 3) {
         createNotification(
           "High Turbidity Alert",
           `Alert: Water turbidity level has exceeded the safe threshold. Current turbidity: ${tankData.turbidity}. Please check the water quality.`
@@ -104,14 +104,14 @@ function Home() {
       }
     }
   }, [tankData.turbidity]);
-*/
+
   /*
   //adds a notification for high temperature
   useEffect(() => {
     if (tankData.temperature !== undefined) {
       if (tankData.temperature > 35) {
         createNotification(
-          "Critical High Temperature Alert",
+          "Critically High Temperature Alert",
           `Alert: Water temperature is critically high. Current temperature: ${tankData.temperature}. Immediate action required.`
         );
       } else if (tankData.temperature > 30) {

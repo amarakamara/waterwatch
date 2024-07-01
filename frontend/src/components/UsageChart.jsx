@@ -33,23 +33,21 @@ export default function UsageChart() {
   useEffect(() => {
     if (waterUsageData.length > 0) {
       const intervals = [
-        { name: "00:00 - 06:00", totalUsage: 0 },
-        { name: "06:00 - 12:00", totalUsage: 0 },
-        { name: "12:00 - 15:00", totalUsage: 0 },
-        { name: "15:00 - 18:00", totalUsage: 0 },
-        { name: "18:00 - 21:00", totalUsage: 0 },
-        { name: "21:00 - 00:00", totalUsage: 0 },
+        { name: "Midnight to 6 AM", totalUsage: 0 },
+        { name: "6 AM to Noon", totalUsage: 0 },
+        { name: "Noon to 3 PM", totalUsage: 0 },
+        { name: "3 PM to 6 PM", totalUsage: 0 },
+        { name: "6 PM to 9 PM", totalUsage: 0 },
+        { name: "9 PM to Midnight", totalUsage: 0 },
       ];
       const processedData = processWaterUsage(waterUsageData, intervals);
       setIntervalData(processedData);
     }
-  }, [waterUsageData]); // Update intervalData when waterUsageData changes
+  }, [waterUsageData]);
 
   const processWaterUsage = (data, intervals) => {
     data.forEach((usageEntry) => {
       const hour = usageEntry._id;
-      let foundInterval = false;
-
       if (hour >= 0 && hour < 6) {
         intervals[0].totalUsage += usageEntry.totalLiters;
       } else if (hour >= 6 && hour < 12) {
@@ -81,13 +79,14 @@ export default function UsageChart() {
       caption: "Water Usage by Interval (Last 24 Hours)",
       xaxisname: "Interval",
       yaxisname: "Total Usage (Liters)",
-      theme: "gammel",
+      bgColor: "#ffffff",
+      showBorder: "0",
     },
     data: chartData,
   };
 
   return (
-    <div className="box-3 border bg-white shadow-md rounded-md">
+    <div className="box-3 px-2 py-4 border bg-white shadow-md rounded-md flex items-center">
       <div className="w-full h-auto">
         <ReactFC
           type="column2d"

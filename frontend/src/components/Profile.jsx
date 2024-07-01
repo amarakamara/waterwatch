@@ -64,6 +64,7 @@ export default function Profile(props) {
       });
 
       if (response.ok) {
+        dispatch(closeProfileAction());
         dispatch(logout());
         localStorage.clear();
         navigate("/welcome", { replace: true });

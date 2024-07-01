@@ -20,8 +20,6 @@ const thingSpeakWriteKey = process.env.WRITE_KEY;
 
 const port = process.env.PORT || 3001;
 
-//import sendEmail from "./utils/sendMail.js";
-
 // Express config
 const app = express();
 const server = http.createServer(app);
@@ -104,7 +102,7 @@ io.on("connection", (socket) => {
       // Generating random values for testing
       waterLevel = Math.floor(Math.random() * 26);
       temp = Math.floor(Math.random() * 41);
-      turbidity = Math.floor(Math.random() * 101);
+      turbidity = Math.floor(Math.random() * 11);
       const data = {
         waterLevel,
         temp,
@@ -167,150 +165,6 @@ app.use("/", (req, res, next) => {
   res.send("This is waterwatch");
 });
 
-/*
-const dummyData = [
-  {
-    "timestamp": "2024-06-26T03:12:47.234567",
-    "literUsed": 47
-  },
-  {
-    "timestamp": "2024-06-26T08:29:12.987654",
-    "literUsed": 73
-  },
-  {
-    "timestamp": "2024-06-26T11:43:58.123456",
-    "literUsed": 22
-  },
-  {
-    "timestamp": "2024-06-26T14:07:21.876543",
-    "literUsed": 91
-  },
-  {
-    "timestamp": "2024-06-26T16:31:45.654321",
-    "literUsed": 39
-  },
-  {
-    "timestamp": "2024-06-26T19:56:09.432109",
-    "literUsed": 64
-  },
-  {
-    "timestamp": "2024-06-26T23:19:33.210876",
-    "literUsed": 18
-  },
-  {
-    "timestamp": "2024-06-27T02:43:57.987654",
-    "literUsed": 52
-  },
-  {
-    "timestamp": "2024-06-27T06:08:21.765432",
-    "literUsed": 80
-  },
-  {
-    "timestamp": "2024-06-27T09:32:45.543210",
-    "literUsed": 11
-  },
-  {
-    "timestamp": "2024-06-27T12:57:09.321087",
-    "literUsed": 68
-  },
-  {
-    "timestamp": "2024-06-27T16:21:33.108765",
-    "literUsed": 25
-  },
-  {
-    "timestamp": "2024-06-27T19:46:57.876543",
-    "literUsed": 98
-  },
-  {
-    "timestamp": "2024-06-26T06:55:18.432109",
-    "literUsed": 58
-  },
-  {
-    "timestamp": "2024-06-26T10:19:42.210876",
-    "literUsed": 31
-  },
-  {
-    "timestamp": "2024-06-26T13:44:06.987654",
-    "literUsed": 75
-  },
-  {
-    "timestamp": "2024-06-26T17:08:30.765432",
-    "literUsed": 10
-  },
-  {
-    "timestamp": "2024-06-26T20:33:54.543210",
-    "literUsed": 43
-  },
-  {
-    "timestamp": "2024-06-27T00:58:18.321087",
-    "literUsed": 85
-  },
-  {
-    "timestamp": "2024-06-27T04:22:42.108765",
-    "literUsed": 61
-  },
-  // You can add more entries here following the same format
-];
-
-
-
- 
-    (async () => {
-  try {
-    await Usage.deleteMany();
-    console.log("Deleted all usage entries successfully!");
-     for (const data of dummyData) {
-      const newUsage = new Usage(data);
-      await newUsage.save();
-    }
-
-    console.log("Dummy data saved to usage successfully!");
-  } catch (error) {
-    console.error("Error saving data:", error);
-  }
-})();
-*/
-
-/*Share sensor data to email
-app.post("/share-data/:id", verifyToken, async (req, res) => {
-  const { recipientmail, recipientname, checked } = req.body;
-
-  const patientId = req.params.id;
-
-  const patient = await Patient.findOne({ _id: patientId });
-
-  let recipients = [];
-
-  if (!patient) {
-    return res.status(201).json("No patient with that ID exists.");
-  }
-  recipients.push(recipientmail);
-
-  if (checked === true) {
-    recipients.push(patient.email);
-  }
-
-  const mailOptions = {
-    user: process.env.MY_EMAIL,
-    password: process.env.MY_PASSWORD,
-    from: process.env.MY_EMAIL,
-    to: recipients, // Pass the array of recipients
-    subject: `${patient.firstName}'s health data.`,
-    text: `Hi,
-      We monitored ${patient.firstName}'s health and here is the result for their temperature and heart rate:
-      Temperature Value: ${patient.temperatureValue}
-      Heart Rate: ${patient.heartRate}`,
-  };
-
-  try {
-    await sendEmail(mailOptions);
-    res.status(200).json({ message: "Email sent" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Server Error" });
-  }
-});
-*/
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

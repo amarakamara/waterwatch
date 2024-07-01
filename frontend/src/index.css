@@ -70,7 +70,7 @@ input {
 
 .main {
   grid-area: main;
-  overflow: auto; /* Prevent overflow */
+  overflow-x: hidden; /* Prevent overflow */
 }
 
 .mobilebar {
@@ -126,4 +126,17 @@ input {
       "box-3"
       "box-4";
   }
+}
+
+.scrollbar-hidden,
+.main {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.main::-webkit-scrollbar {
+  display: none;
 }

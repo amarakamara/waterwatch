@@ -12,6 +12,7 @@ const deleteHistory = async (req, res, next) => {
   try {
     const history = await History.findOneAndDelete({
       _id: historyId,
+      user: req.user._id,
     });
 
     if (!history) {
@@ -35,7 +36,7 @@ const getHistory = async (req, res, next) => {
   }
 
   try {
-    const histories = await History.find();
+    const histories = await History.find({ user: user });
     return res.status(200).json({
       message: "Histories retrieved",
       histories,

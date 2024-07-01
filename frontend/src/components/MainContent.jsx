@@ -4,6 +4,7 @@ import Item from "./Item";
 import PumpControl from "./PumpControl";
 import TankLevel from "./TankLevel";
 import UsageChart from "./UsageChart";
+import SavingTips from "./SavingTips";
 import { Droplet, Droplets, Thermometer, MilkOff } from "lucide-react";
 
 export default function MainContent() {
@@ -47,7 +48,7 @@ export default function MainContent() {
         <PumpControl />
         <TankLevel />
         <UsageChart />
-        <div className="box-4  border bg-white shadow-md rounded-md "></div>
+        <SavingTips />
       </div>
     </div>
   );
