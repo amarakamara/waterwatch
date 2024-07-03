@@ -90,14 +90,14 @@ export default function Login() {
     <div
       className="w-screen h-screen"
       style={{
-        backgroundImage: "url('/src/assets/pump.png')",
+        backgroundImage: "url('/static/images/pump.png')",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
       <div className="bg-gradient-to-t text-white from-dblue via-dblue via-25% to-transparent w-full h-full flex flex-col">
         <div className="pt-1 w-full h-auto flex justify-center">
-          <img className="w-20" src="/src/assets/white-logo.png" />
+          <img className="w-20" src="/static/images/white-logo.png" />
         </div>
         <div className="w-full  h-full  flex flex-col justify-center items-center">
           <form

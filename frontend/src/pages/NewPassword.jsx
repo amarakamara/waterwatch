@@ -79,7 +79,7 @@ export default function NewPassword() {
     >
       <div className="w-full h-full flex flex-col justify-center items-center bg-dblue bg-opacity-40">
         <div className="w-auto h-auto my-10 flex justify-center">
-          <img className="w-20" src="/src/assets/white-logo.png" />
+          <img className="w-20" src="/static/images/white-logo.png" />
         </div>
         <form
           className="w-96 h-auto bg-dblue  border-thin px-10 py-6 rounded-md text-xl text-center text-white flex flex-col justify-center items-center"

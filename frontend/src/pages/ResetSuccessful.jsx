@@ -5,7 +5,7 @@ export default function ResetSuccessful() {
   return (
     <div className="w-screen h-screen text-white flex flex-col gap-4 justify-center items-center bg-dblue">
       <div className="w-auto h-auto my-10 flex justify-center">
-        <img className="w-20" src="/src/assets/white-logo.png" />
+        <img className="w-20" src="/static/images/white-logo.png" />
       </div>
       <div className="w-3/4 h-auto text-center">
         <h2 className="text-xl md:text-2xl text-red-500">

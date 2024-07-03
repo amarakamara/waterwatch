@@ -22,7 +22,7 @@ function SideBar({ children }) {
       <nav className="h-full flex flex-col bg-dblue border-r shadow-sm">
         <div className="p-2 flex justify-between items-center">
           <img
-            src="/src/assets/White-Logo.png"
+            src="/static/images/White-Logo.png"
             className={`overflow-hidden transition-all ${
               expanded ? "w-8" : "w-0"
             }  h-auto pt-1`}

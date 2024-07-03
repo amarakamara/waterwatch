@@ -12,7 +12,7 @@ function Welcome() {
     >
       <div className="text-white w-full h-full z-10 via-25% to-transparent flex flex-col m-0">
         <div className=" pt-4 w-full h-auto z-20 flex justify-center">
-          <img className="w-20" src="/src/assets/White-logo.png" />
+          <img className="w-20" src="/static/images/White-logo.png" />
         </div>
         <div className="w-full h-full flex flex-col justify-center p-4 text-center font-kufam">
           <h2 className="text-5xl my-4 text-nowrap"> Start Monitoring</h2>
