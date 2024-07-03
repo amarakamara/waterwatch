@@ -3,7 +3,7 @@ import { useNavigate, NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, logout } from "../features/auth/authSlice";
 import InputField from "../components/InputField";
-import RegLogButton from "../components/RegLogButton";
+import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
 
 const apiBase =
@@ -99,7 +99,7 @@ export default function Login() {
         <div className="pt-1 w-full h-auto flex justify-center">
           <img className="w-20" src="/src/assets/white-logo.png" />
         </div>
-        <div className="w-full h-full  flex flex-col justify-center items-center">
+        <div className="w-full  h-full  flex flex-col justify-center items-center">
           <form
             className="w-80 h-auto bg-dblue bg-opacity-5 border-thin p-6 rounded-md text-xl text-center flex flex-col justify-center items-center"
             onSubmit={handleSubmit}
@@ -125,11 +125,17 @@ export default function Login() {
                 placeholder="Password:"
               />
             </div>
-            <RegLogButton value="Login" />
+            <SubmitButton value="Login" />
+            <div className="w-full flex justify-between text-sm mt-4">
+              <a className="font-thin text-xs" href="/register">
+                No account? Register
+              </a>
+              <a className="font-thin text-xs" href="/forgotpassword">
+                Forgot password?
+              </a>
+            </div>
           </form>
-          <a className="font-thin text-md md:text-sm mt-4" href="/register">
-            No account? Register
-          </a>
+
           <a
             className="font-thin flex items-center text-xs md:text-1xs mt-4 md:mt-2"
             href="/"

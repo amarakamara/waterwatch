@@ -3,7 +3,7 @@ import { useNavigate, NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, logout } from "../features/auth/authSlice";
 import InputField from "../components/InputField";
-import RegLogButton from "../components/RegLogButton";
+import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
 
 const apiBase =
@@ -132,7 +132,7 @@ export default function Register() {
                 placeholder="Password:"
               />
             </div>
-            <RegLogButton value="Register" />
+            <SubmitButton value="Register" />
           </form>
           <a
             className="font-thin text-md md:text-sm mt-4 md:mt-2"

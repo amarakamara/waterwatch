@@ -64,7 +64,6 @@ export default function Profile(props) {
       });
 
       if (response.ok) {
-        dispatch(closeProfileAction());
         dispatch(logout());
         localStorage.clear();
         navigate("/welcome", { replace: true });
@@ -77,7 +76,7 @@ export default function Profile(props) {
   return (
     <div
       ref={profileRef}
-      className={`max-h-50 max-w-50 w-50 h-auto absolute top-[2.8rem] right-2 shadow-md bg-red-500 ${animationClass} rounded-lg z-50`}
+      className={`max-h-50 max-w-50 w-50 h-auto absolute top-12 right-0 shadow-md bg-dblue ${animationClass} rounded-lg z-[100]`}
       style={{ display: show ? "block" : "none" }}
     >
       <div className="w-full p-2 py-2 bg-white text-red-500">
@@ -95,12 +94,12 @@ export default function Profile(props) {
           </h2>
         </span>
       </div>
-      <div className="w-full px-2 py-4 overflow-hidden text-white font-bold">
+      <div className="w-full px-2 py-4 overflow-hidden text-white">
         <h4 className="text-xs text-gray-300">id: {userData.username}</h4>
         <h4 className="text-xs text-gray-300">tank id: john1212gjah</h4>
         <hr className="my-4" />
-        <button className="flex gap-1 font-semibold" onClick={handleLogout}>
-          {props.icon}Logout
+        <button className="flex items-center justify-center gap-2 rounded  bg-red-500 w-full px-2 py-1" onClick={handleLogout}>
+          {props.icon}Logout <LogOut/>
         </button>
       </div>
     </div>

@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
     unique: true,
   },
   password: String,
+  resetPasswordToken: { type: String, required: false },
 });
 
 UserSchema.path("password").validate(function (value) {

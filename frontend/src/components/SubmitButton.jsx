@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function RegLogButton(props) {
+function SubmitButton(props) {
   return (
     <button
       type="submit"
@@ -13,4 +13,4 @@ function RegLogButton(props) {
   );
 }
 
-export default RegLogButton;
+export default SubmitButton;

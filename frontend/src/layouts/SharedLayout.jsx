@@ -7,6 +7,7 @@ import {
   setHistoryAlert,
 } from "../features/alert/alertSlice";
 import SideBar, { SidebarItem, LogoutButton } from "../components/SideBar";
+import Profile from "../components/Profile";
 import BottomBar, { BottombarItem } from "../components/BottomBar";
 import TopBar from "../components/TopBar";
 import {
@@ -46,6 +47,7 @@ const SharedLayout = ({ children }) => {
   return (
     <div className="container relative overflow-y-hidden">
       <TopBar />
+      <Profile />
       <SideBar>
         <SidebarItem
           icon={<LayoutDashboard size={20} />}

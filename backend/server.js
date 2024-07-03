@@ -154,12 +154,14 @@ import tankRouter from "./routes/tank-routes.js";
 import historyRouter from "./routes/history-routes.js";
 import notificationRouter from "./routes/notification-routes.js";
 import usageRouter from "./routes/usage-routes.js";
+import passwordRouter from "./routes/password-routes.js";
 
 app.use("/users", userRouter);
 app.use("/tanks", tankRouter);
 app.use("/history", historyRouter);
 app.use("/notification", notificationRouter);
 app.use("/usage", usageRouter);
+app.use("/password", passwordRouter);
 
 app.use("/", (req, res, next) => {
   res.send("This is waterwatch");
