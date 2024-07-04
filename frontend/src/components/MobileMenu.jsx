@@ -1,17 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function BottomBar({ children }) {
+function MobileMenu({ children }) {
   return (
-    <div className="bg-dblue flex items-center w-full max-h-[4.4rem] px-6 rounded-t-xl mobilebar  sticky z-50  md:hidden">
-      <ul className="w-full flex justify-center items-center gap-1  relative text-white">
+    <div className="flex shadow-md items-center w-full max-h-[4.4rem] px-6  mobilebar  sticky z-50 top-0 md:hidden">
+      <ul className="w-full flex justify-center items-center gap-1  relative text-red-500">
         {children}
       </ul>
     </div>
   );
 }
 
-function BottombarItem({ text, icon, active, alert, onClick }) {
+function MobileMenuItem({ text, icon, active, alert, onClick }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -20,7 +20,7 @@ function BottombarItem({ text, icon, active, alert, onClick }) {
 
   return (
     <li
-      className={`w-full ${active ? "bg-red-500 rounded-md  " : "text-white"}`}
+      className={`w-full text-red-500 `}
       onClick={handleClick}
     >
       <a
@@ -35,5 +35,5 @@ function BottombarItem({ text, icon, active, alert, onClick }) {
     </li>
   );
 }
-export default BottomBar;
-export { BottombarItem };
+export default MobileMenu;
+export { MobileMenuItem };

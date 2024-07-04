@@ -8,7 +8,8 @@ import {
 } from "../features/alert/alertSlice";
 import SideBar, { SidebarItem, LogoutButton } from "../components/SideBar";
 import Profile from "../components/Profile";
-import BottomBar, { BottombarItem } from "../components/BottomBar";
+import Item from "../components/Item";
+import MobileMenu, { MobileMenuItem } from "../components/MobileMenu";
 import TopBar from "../components/TopBar";
 import {
   LayoutDashboard,
@@ -17,6 +18,10 @@ import {
   AreaChart,
   Settings,
   LogOut,
+  Droplet,
+  Droplets,
+  Thermometer,
+  MilkOff,
 } from "lucide-react";
 
 const SharedLayout = ({ children }) => {
@@ -26,6 +31,17 @@ const SharedLayout = ({ children }) => {
   const { notificationAlert, historyAlert } = useSelector(
     (state) => state.alert
   );
+  const tankData = useSelector((state) => state.tank.tankinfo);
+  const [leakageStatus, setLeakageStatus] = useState("");
+  const [literUsed, setLiterUsed] = useState(0);
+
+  useEffect(() => {
+    tankData.leakage
+      ? setLeakageStatus("Leakage Detected")
+      : setLeakageStatus("No Leakage");
+
+    setLiterUsed(25 - tankData.waterLevel);
+  }, [tankData]);
 
   const [activePage, setActivePage] = useState("");
 
@@ -47,6 +63,69 @@ const SharedLayout = ({ children }) => {
   return (
     <div className="container relative overflow-y-hidden">
       <TopBar />
+      <div className="w-full md:shadow-md lg:shadow-md bg-white top-0 sticky showitems z-50 flex overflow-hidden ">
+        <Item
+          title="Liters Used"
+          content={literUsed}
+          icon={<Droplets size="35" />}
+        />
+
+        <Item
+          title="Leakage"
+          content={leakageStatus}
+          icon={<MilkOff size="35" />}
+        />
+        <Item
+          title="Temperature"
+          content={`${tankData.temp} C`}
+          icon={<Thermometer size="35" />}
+        />
+        <Item
+          title="Turbidity"
+          content={`${tankData.turbidity} NTC`}
+          icon={<Droplet size="35" />}
+        />
+      </div>
+      <MobileMenu>
+        <MobileMenuItem
+          text="Prediction"
+          icon={<AreaChart size={30} />}
+          active={activePage === "prediction"}
+          onClick={() => navigate("/prediction")}
+        />
+        <MobileMenuItem
+          text="History"
+          icon={<History size={30} />}
+          alert={historyAlert}
+          active={activePage === "history"}
+          onClick={() => {
+            setHistoryAlert(false);
+            navigate("/history");
+          }}
+        />
+        <MobileMenuItem
+          text="Dashboard"
+          icon={<LayoutDashboard size={30} />}
+          active={activePage === "dashboard"}
+          onClick={() => navigate("/dashboard")}
+        />
+        <MobileMenuItem
+          text="Notification"
+          icon={<Bell size={30} />}
+          alert={notificationAlert}
+          active={activePage === "notification"}
+          onClick={() => {
+            setNotificationAlert(false);
+            navigate("/notification");
+          }}
+        />
+        <MobileMenuItem
+          text="Setting"
+          icon={<Settings size={30} />}
+          active={activePage === "setting"}
+          onClick={() => navigate("/setting")}
+        />
+      </MobileMenu>
       <Profile />
       <SideBar>
         <SidebarItem
@@ -95,46 +174,6 @@ const SharedLayout = ({ children }) => {
         />
       </SideBar>
       <div className="bg-white main">{children}</div>
-      <BottomBar>
-        <BottombarItem
-          text="Prediction"
-          icon={<AreaChart size={30} />}
-          active={activePage === "prediction"}
-          onClick={() => navigate("/prediction")}
-        />
-        <BottombarItem
-          text="History"
-          icon={<History size={30} />}
-          alert={historyAlert}
-          active={activePage === "history"}
-          onClick={() => {
-            setHistoryAlert(false);
-            navigate("/history");
-          }}
-        />
-        <BottombarItem
-          text="Dashboard"
-          icon={<LayoutDashboard size={30} />}
-          active={activePage === "dashboard"}
-          onClick={() => navigate("/dashboard")}
-        />
-        <BottombarItem
-          text="Notification"
-          icon={<Bell size={30} />}
-          alert={notificationAlert}
-          active={activePage === "notification"}
-          onClick={() => {
-            setNotificationAlert(false);
-            navigate("/notification");
-          }}
-        />
-        <BottombarItem
-          text="Setting"
-          icon={<Settings size={30} />}
-          active={activePage === "setting"}
-          onClick={() => navigate("/setting")}
-        />
-      </BottomBar>
     </div>
   );
 };
