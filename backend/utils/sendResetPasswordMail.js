@@ -2,8 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import sendEmail from "./sendMail.js";
 
+const devOrigin = "http://localhost:3001";
+const prodOrigin = "https://waterwatch-seven.vercel.app";
+
+const origin = process.env.NODE_ENV === "development" ? devOrigin : prodOrigin;
+
 export default async function sendResetPasswordMail(email, token) {
-  console.log("About to send email");
   const mailOptions = {
     user: process.env.MY_EMAIL,
     password: process.env.MY_PASSWORD,
@@ -14,7 +18,7 @@ export default async function sendResetPasswordMail(email, token) {
 
     Someone requested a new password for your [customer portal] account.
     
-    Click this link to reset your password: http://localhost:3001/newpassword/${token}
+    Click this link to reset your password: ${origin}/newpassword/${token}
     
     If you didn’t make this request, then you can ignore this email 🙂 `,
   };
