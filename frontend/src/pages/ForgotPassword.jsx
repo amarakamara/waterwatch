@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import InputField from "../components/InputField";
 import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
+import whiteLogo from "../public/images/white-logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -55,7 +56,7 @@ export default function ForgotPassword() {
     >
       <div className="w-full h-full flex flex-col justify-center items-center bg-dblue bg-opacity-40">
         <div className="w-auto h-auto my-10 flex justify-center">
-          <img className="w-20" src="/static/images/white-logo.png" />
+          <img className="w-20" src={whiteLogo} />
         </div>
         <form
           className="w-96 h-auto bg-dblue  border-thin px-10 py-6 rounded-md text-xl text-center text-white flex flex-col justify-center items-center"

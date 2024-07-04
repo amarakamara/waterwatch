@@ -4,6 +4,7 @@ import { ChevronFirst, ChevronLast, MoreVertical, LogOut } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { closeProfile as closeProfileAction } from "../features/windows/windowSlice";
+import whiteLogo from "../public/images/white-logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -22,7 +23,7 @@ function SideBar({ children }) {
       <nav className="h-full flex flex-col bg-dblue border-r shadow-sm">
         <div className="p-2 flex justify-between items-center">
           <img
-            src="/static/images/White-Logo.png"
+            src={whiteLogo}
             className={`overflow-hidden transition-all ${
               expanded ? "w-8" : "w-0"
             }  h-auto pt-1`}

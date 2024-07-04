@@ -5,6 +5,7 @@ import { login, logout } from "../features/auth/authSlice";
 import InputField from "../components/InputField";
 import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
+import whiteLogo from "../public/images/white-logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -97,7 +98,7 @@ export default function Register() {
     >
       <div className="bg-gradient-to-t text-white from-dblue via-dblue via-25% to-transparent w-screen h-screen flex flex-col items-center">
         <div className="pt-1 w-full h-auto flex justify-center">
-          <img className="w-20" src="/static/images/white-logo.png" />
+          <img className="w-20" src={whiteLogo} />
         </div>
         <div className="w-full h-full  flex flex-col justify-center items-center">
           <form
