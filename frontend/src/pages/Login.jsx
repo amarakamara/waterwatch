@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, logout } from "../features/auth/authSlice";
+import { closeProfile } from "../features/windows/windowSlice";
 import InputField from "../components/InputField";
 import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
-import pumpImage from "../public/images/pump.png";
-import whiteLogo from "../public/images/white-logo.png";
+import pumpImage from "/public/images/pump.png";
+import whiteLogo from "/public/images/White-Logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -76,6 +77,7 @@ export default function Login() {
       };
       dispatch(login(payload));
       navigate("/dashboard", { replace: true });
+      dispatch(closeProfile());
     } catch (error) {
       console.error("Error logging in:", error.message);
       setMessage(error.message);
@@ -97,11 +99,11 @@ export default function Login() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="bg-gradient-to-t text-white from-dblue via-dblue via-25% to-transparent w-full h-full flex flex-col">
-        <div className="pt-1 w-full h-auto flex justify-center">
+      <div className="bg-gradient-to-t text-white from-dblue via-dblue via-25% to-transparent w-full h-full flex flex-col justify-center items-center">
+        <div className="mb-8 w-full h-auto flex justify-center">
           <img className="w-20" src={whiteLogo} />
         </div>
-        <div className="w-full  h-full  flex flex-col justify-center items-center">
+        <div className="w-full  h-auto  flex flex-col justify-center items-center">
           <form
             className="w-80 h-auto bg-dblue bg-opacity-5 border-thin p-6 rounded-md text-xl text-center flex flex-col justify-center items-center"
             onSubmit={handleSubmit}

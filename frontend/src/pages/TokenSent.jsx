@@ -1,6 +1,6 @@
 import React from "react";
 import { MoveLeft } from "lucide-react";
-import whiteLogo from "../public/images/white-logo.png";
+import whiteLogo from  "/public/images/White-Logo.png";
 
 export default function TokenSent() {
   return (

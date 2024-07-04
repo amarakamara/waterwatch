@@ -4,7 +4,7 @@ import { ChevronFirst, ChevronLast, MoreVertical, LogOut } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { closeProfile as closeProfileAction } from "../features/windows/windowSlice";
-import whiteLogo from "../public/images/white-logo.png";
+import whiteLogo from "/public/images/White-Logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"

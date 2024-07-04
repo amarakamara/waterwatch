@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import InputField from "../components/InputField";
 import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
-import whiteLogo from "../public/images/white-logo.png";
+import whiteLogo from  "/public/images/White-Logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
