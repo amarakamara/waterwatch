@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import InputField from "../components/InputField";
 import SubmitButton from "../components/SubmitButton";
 import { MoveLeft } from "lucide-react";
-import whiteLogo from  "/public/images/White-Logo.png";
+import whiteLogo from "/public/images/White-Logo.png";
 
 const apiBase =
   import.meta.env.VITE_ENV === "development"
@@ -46,7 +46,7 @@ export default function ForgotPassword() {
   };
   return (
     <div
-      className="w-full h-screen  bg-dblue"
+      className="w-full h-screen overflow-hidden bg-dblue"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1526131424827-a96615888a26?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -59,7 +59,7 @@ export default function ForgotPassword() {
           <img className="w-20" src={whiteLogo} />
         </div>
         <form
-          className="w-96 h-auto bg-dblue  border-thin px-10 py-6 rounded-md text-xl text-center text-white flex flex-col justify-center items-center"
+          className="w-4/5 h-auto bg-dblue bg-opacity-10  border-thin px-10 py-6 rounded-md text-xl text-center text-white flex flex-col justify-center items-center"
           onSubmit={handleSubmit}
         >
           <h2 className="text-2xl">Forgot Your Password?</h2>
@@ -67,14 +67,15 @@ export default function ForgotPassword() {
             Enter your email address associated with your account to reset your
             password.
           </p>
-
-          <InputField
-            name="email"
-            type="email"
-            value={email}
-            onChange={handleChange}
-            placeholder="Email:"
-          />
+          <div className="w-full mb-2">
+            <InputField
+              name="email"
+              type="email"
+              value={email}
+              onChange={handleChange}
+              placeholder="Email:"
+            />
+          </div>
           <SubmitButton value="Submit" />
         </form>
         <a

@@ -76,7 +76,7 @@ export default function Profile(props) {
   return (
     <div
       ref={profileRef}
-      className={`max-h-50 max-w-50 w-50 h-auto absolute top-12 right-0 shadow-md bg-dblue ${animationClass} rounded-lg z-[100]`}
+      className={`max-h-50 max-w-1/2 w-1/2 h-auto absolute top-12 right-0 shadow-md bg-dblue ${animationClass} rounded-lg z-[100]`}
       style={{ display: show ? "block" : "none" }}
     >
       <div className="w-full p-2 py-2 bg-white text-red-500">
@@ -87,19 +87,22 @@ export default function Profile(props) {
           <img
             src="https://img.icons8.com/?size=100&id=23244&format=png&color=000000"
             alt="avatar"
-            className="rounded-md w-10 h-10 mr-2"
+            className="rounded-md w-20 h-20 mr-2"
           />
-          <h2 className="font-semibold text-2xl leading-1 mt-1">
+          <h2 className="font-semibold text-3xl leading-1 mt-1">
             {userData.name}
           </h2>
         </span>
       </div>
       <div className="w-full px-2 py-4 overflow-hidden text-white">
-        <h4 className="text-xs text-gray-300">id: {userData.username}</h4>
-        <h4 className="text-xs text-gray-300">tank id: john1212gjah</h4>
+        <h4 className="text-base my-4 text-gray-300">Id: {userData.username}</h4>
+        <h4 className="text-base my-4 text-gray-300">Tank id: john1212gjah</h4>
         <hr className="my-4" />
-        <button className="flex items-center justify-center gap-2 rounded  bg-red-500 w-full px-2 py-1" onClick={handleLogout}>
-          {props.icon}Logout <LogOut/>
+        <button
+          className="flex items-center justify-center gap-2 rounded  bg-red-500 w-full px-2 py-1"
+          onClick={handleLogout}
+        >
+          {props.icon}Logout <LogOut />
         </button>
       </div>
     </div>
