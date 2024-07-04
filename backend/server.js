@@ -49,8 +49,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const devOrigin = "http://localhost:3001";
-
-const prodOrigin = process.env.PROD_ORIGIN;
+const prodOrigin = "https://waterwatch-seven.vercel.app";
 
 // Routes
 const options = {
