@@ -90,7 +90,7 @@ export default function PumpControl() {
             </div>
           </div>
           <div className="w-full  mt-12">
-            <p className="text-center text-xs text-gray-400">
+            <p className="text-center text-1xs md:text-xs lg:text-xs text-gray-400">
               *This only controls the pump that supplies your household
             </p>
           </div>
