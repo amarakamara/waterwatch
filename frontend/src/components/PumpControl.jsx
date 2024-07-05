@@ -61,8 +61,8 @@ export default function PumpControl() {
   };
 
   return (
-    <div className="box-1 px-2 py-4 border bg-white rounded-md flex justify-evenly">
-      <div className="w-auto h-auto flex flex-col justify-even">
+    <div className="w-full h-full pumpcontrol flex justify-evenly">
+      <div className="flex flex-col justify-even">
         <h2 className="font-bold text-base md:font-semibold text-red-500 whitespace-nowrap flex justify-center gap-3 text-center">
           PUMP CONTROL <SlidersVertical />
         </h2>

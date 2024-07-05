@@ -86,14 +86,16 @@ export default function UsageChart() {
   };
 
   return (
-    <div className="box-3 px-2 py-4 border bg-white shadow-md rounded-md flex items-center">
-      <div className="w-full h-auto">
+    <div className="w-full h-full usagechart flex items-center">
+      <div className="w-full h-auto overflow-hidden">
         <ReactFC
           type="column2d"
           width="100%"
           height={isMobile ? "50%" : "70%"}
           dataFormat="JSON"
           dataSource={dataSource}
+          dataEmptyMessage="Start using water to see the usage chart"
+          dataLoadStartMessage="Fetching water usage from the last 24 hours"
         />
       </div>
     </div>

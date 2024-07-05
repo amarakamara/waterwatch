@@ -20,9 +20,8 @@ export default function SavingTips() {
   useEffect(() => {
     if (totalWaterUsed <= 50) {
       setTip({
-        title: "Great job!🥂",
-        subtitle:
-          "Keep up the good work. Here are some tips to save even more:",
+        title: "Great job! Keep up the good work🥂",
+        subtitle: "Here are some tips to save even more:",
         points: [
           "Consider using water-efficient fixtures.",
           "Continue monitoring your water usage for consistency.",
@@ -63,18 +62,18 @@ export default function SavingTips() {
   }, [totalWaterUsed]);
 
   return (
-    <div className="box-4 px-2 pt-4 border bg-white text-dblue shadow-md rounded-md flex flex-col justify-center items-center">
+    <div className="w-full h-full savingtips text-dblue flex flex-col justify-center items-center">
       <h2 className="text-red-500 font-bold text-base md:font-semibold text-blue-500 whitespace-nowrap flex justify-center gap-3 text-center">
         SAVINGS TIPS <HandCoins />
       </h2>
       <h2 className="text-lg mt-3 text-red-500">
         You used {totalWaterUsed} liters in the last 24 hours
       </h2>
-      <div className="w-full h-full">
+      <div className="w-full h-full bg-white">
         <div className=" w-full h-auto flex flex-col justify-center items-center">
-          <h3 className="mt-3 text-lg text-center">{tip.title}</h3>
+          <h3 className="mt-3 text-xl text-center">{tip.title}</h3>
           <p className="mt-3 text-base text-center">{tip.subtitle}</p>
-          <ul className="text-left w-full h-40 scrollbar-hidden overflow-scroll mt-3 text-base px-12">
+          <ul className="text-left w-full h-40 scrollbar-hidden overflow-scroll mt-3 text-base px-8 lg:px-12 md:px-10">
             {tip.points &&
               tip.points.map((point, index) => (
                 <li className="my-2 flex" key={index}>

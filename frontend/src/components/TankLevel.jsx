@@ -44,14 +44,14 @@ const TankLevel = () => {
   }, [tankData.waterLevel]);
 
   return (
-    <div className="box-2 px-2 py-4 border bg-white text-dblue rounded-md">
-      <div className="w-auto h-auto pl-2 flex flex-col justify-center">
+    <div className="w-full h-full tanklevel text-dblue">
+      <div className="pl-2 flex flex-col justify-center">
         <h2 className="font-bold text-base mb-4 md:font-semibold text-red-500 whitespace-nowrap flex justify-center gap-3 text-center">
           WATER LEVEL <Cylinder />
         </h2>
         <div className="flex justify-center items-center overflow-hidden">
           <div className="w-auto flex flex-col gap-2">
-            <span className="flex flex-col">
+            <span className="flex flex-col mb-6">
               <span className="flex items-center h-auto p-0 gap-1">
                 <h2 className="text-6xl font-bold p-0">
                   {tankData.waterLevel}

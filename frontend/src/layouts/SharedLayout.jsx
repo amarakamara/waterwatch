@@ -63,13 +63,12 @@ const SharedLayout = ({ children }) => {
   return (
     <div className="container relative overflow-y-hidden">
       <TopBar />
-      <div className="w-full md:shadow-md lg:shadow-md bg-white top-0 sticky showitems z-50 flex overflow-hidden ">
+      <div className="md:shadow-md lg:shadow-md bg-white w-full flex p-1 md:p-0 lg:p-0 border-b-0.1">
         <Item
           title="Liters Used"
           content={literUsed}
           icon={<Droplets size="35" />}
         />
-
         <Item
           title="Leakage"
           content={leakageStatus}
@@ -89,13 +88,13 @@ const SharedLayout = ({ children }) => {
       <MobileMenu>
         <MobileMenuItem
           text="Prediction"
-          icon={<AreaChart size={30} />}
+          icon={<AreaChart size={22} />}
           active={activePage === "prediction"}
           onClick={() => navigate("/prediction")}
         />
         <MobileMenuItem
           text="History"
-          icon={<History size={30} />}
+          icon={<History size={22} />}
           alert={historyAlert}
           active={activePage === "history"}
           onClick={() => {
@@ -105,13 +104,13 @@ const SharedLayout = ({ children }) => {
         />
         <MobileMenuItem
           text="Dashboard"
-          icon={<LayoutDashboard size={30} />}
+          icon={<LayoutDashboard size={22} />}
           active={activePage === "dashboard"}
           onClick={() => navigate("/dashboard")}
         />
         <MobileMenuItem
           text="Notification"
-          icon={<Bell size={30} />}
+          icon={<Bell size={22} />}
           alert={notificationAlert}
           active={activePage === "notification"}
           onClick={() => {
@@ -121,7 +120,7 @@ const SharedLayout = ({ children }) => {
         />
         <MobileMenuItem
           text="Setting"
-          icon={<Settings size={30} />}
+          icon={<Settings size={22} />}
           active={activePage === "setting"}
           onClick={() => navigate("/setting")}
         />
@@ -173,7 +172,7 @@ const SharedLayout = ({ children }) => {
           onClick={() => dispatch(logout())}
         />
       </SideBar>
-      <div className="bg-white main">{children}</div>
+      <div className="main bg-red-50">{children}</div>
     </div>
   );
 };

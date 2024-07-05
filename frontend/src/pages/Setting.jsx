@@ -1,12 +1,11 @@
 import React from "react";
 import SharedLayout from "../layouts/SharedLayout";
+import SettingContent from "../components/SettingContent";
 
 export default function Setting() {
   return (
     <SharedLayout>
-      <div className="bg-white main w-full h-full flex justify-center items-center">
-        <h3>In Progress..</h3>
-      </div>
+      <SettingContent />
     </SharedLayout>
   );
 }

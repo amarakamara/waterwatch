@@ -76,10 +76,10 @@ export default function Profile(props) {
   return (
     <div
       ref={profileRef}
-      className={`max-h-50 max-w-1/2 w-1/2 h-auto absolute top-12 right-0 shadow-md bg-dblue ${animationClass} rounded-lg z-[100]`}
+      className={`max-h-50 max-w-1/2 w-1/2 h-auto absolute top-12 right-1 shadow-md bg-dblue ${animationClass} rounded z-[100]`}
       style={{ display: show ? "block" : "none" }}
     >
-      <div className="w-full p-2 py-2 bg-white text-red-500">
+      <div className="w-full px-2 py-2 bg-white text-red-500">
         <span onClick={handleCloseProfile}>
           <X />
         </span>
@@ -95,8 +95,8 @@ export default function Profile(props) {
         </span>
       </div>
       <div className="w-full px-2 py-4 overflow-hidden text-white">
-        <h4 className="text-base my-4 text-gray-300">Id: {userData.username}</h4>
-        <h4 className="text-base my-4 text-gray-300">Tank id: john1212gjah</h4>
+        <h4 className="text-sm my-4 text-gray-300">Id: {userData.username}</h4>
+        <h4 className="text-sm my-4 text-gray-300">Tank id: john1212gjah</h4>
         <hr className="my-4" />
         <button
           className="flex items-center justify-center gap-2 rounded  bg-red-500 w-full px-2 py-1"

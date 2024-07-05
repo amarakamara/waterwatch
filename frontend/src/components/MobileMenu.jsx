@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function MobileMenu({ children }) {
   return (
-    <div className="flex shadow-md items-center w-full max-h-[4.4rem] px-6  mobilebar  sticky z-50 top-0 md:hidden">
+    <div className="flex shadow-md items-center w-full max-h-[4rem] h-[3rem] px-6  mobilebar  sticky z-50 top-0 md:hidden">
       <ul className="w-full flex justify-center items-center gap-1  relative text-red-500">
         {children}
       </ul>
@@ -19,10 +19,7 @@ function MobileMenuItem({ text, icon, active, alert, onClick }) {
   };
 
   return (
-    <li
-      className={`w-full text-red-500 `}
-      onClick={handleClick}
-    >
+    <li className={`w-full text-red-500 `} onClick={handleClick}>
       <a
         className="flex relative flex-col justify-center items-center text-center py-4"
         href={`/${text.toLowerCase()}`}
