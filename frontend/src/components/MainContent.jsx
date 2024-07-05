@@ -7,7 +7,7 @@ import SavingTips from "./SavingTips";
 
 export default function MainContent() {
   return (
-    <div className="flex flex-col md:flex-row lg:flex-row flex-wrap px-2 py-4 overflow-y-hidden">
+    <div className="flex flex-col md:flex-row lg:flex-row flex-wrap px-2 py-4 overflow-x-hidden">
       <div className="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.5rem)] my-1 mx-0 lg:mx-1 md:mx-1  px-2 py-4 border bg-white rounded-md">
         <PumpControl />
       </div>
