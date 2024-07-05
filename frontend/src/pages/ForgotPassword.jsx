@@ -62,8 +62,8 @@ export default function ForgotPassword() {
           className="w-4/5 h-auto bg-dblue bg-opacity-10  border-thin px-10 py-6 rounded-md text-xl text-center text-white flex flex-col justify-center items-center"
           onSubmit={handleSubmit}
         >
-          <h2 className="text-2xl">Forgot Your Password?</h2>
-          <p className="mt-3 mb-8 text-xs font-extralight">
+          <h2 className="text-xl lg:text-2xl">Forgot Your Password?</h2>
+          <p className="mt-3 mb-4 text-xs font-extralight">
             Enter your email address associated with your account to reset your
             password.
           </p>
