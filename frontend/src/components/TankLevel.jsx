@@ -12,13 +12,13 @@ ReactFC.fcRoot(FusionCharts, Charts, Widgets, FusionTheme);
 const TankLevel = () => {
   const isMobile = window.innerWidth <= 768;
   const tankData = useSelector((state) => state.tank.tankinfo);
-  const totalCapacity = 25;
+  const totalCapacity = 20;
   const [percentage, setPercentage] = useState(0);
 
   const [dataSource, setDataSource] = useState({
     chart: {
       lowerlimit: "0",
-      upperlimit: "25",
+      upperlimit: "20",
       lowerlimitdisplay: "Empty",
       upperlimitdisplay: "Full",
       numbersuffix: " ltrs",
@@ -27,14 +27,14 @@ const TankLevel = () => {
       cylfillhoveralpha: "85",
       theme: "fusion",
     },
-    value: "25",
+    value: "20",
   });
 
   useEffect(() => {
     if (tankData.waterLevel !== undefined) {
       setDataSource((prevDataSource) => ({
         ...prevDataSource,
-        value: tankData.waterLevel.toString(),
+        value: tankData.waterLevel,
       }));
       const waterLevelPercentage = Math.round(
         (tankData.waterLevel / totalCapacity) * 100
@@ -62,7 +62,7 @@ const TankLevel = () => {
             </span>
             <h3 className="text-sm md:text-lg font-semibold flex gap-1">
               <Droplets className="text-red-500" />
-              Liters Used: {25 - tankData.waterLevel} ltrs
+              Liters Used: {20 - tankData.waterLevel} ltrs
             </h3>
             <h3 className="text-sm md:text-lg mb-6 md:mb-0 font-semibold flex gap-1">
               <BadgeCheck className="text-red-500" />

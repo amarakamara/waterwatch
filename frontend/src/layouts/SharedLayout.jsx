@@ -35,12 +35,19 @@ const SharedLayout = ({ children }) => {
   const [leakageStatus, setLeakageStatus] = useState("");
   const [literUsed, setLiterUsed] = useState(0);
 
+  let turbidity;
+
+  if (tankData.turbidity >= 3000) {
+    turbidity = "Dirty";
+  } else if (tankData.turbidity < 3000) {
+    turbidity = "Clean";
+  }
   useEffect(() => {
     tankData.leakage
       ? setLeakageStatus("Leakage Detected")
       : setLeakageStatus("No Leakage");
 
-    setLiterUsed(25 - tankData.waterLevel);
+    setLiterUsed(20 - tankData.waterLevel);
   }, [tankData]);
 
   const [activePage, setActivePage] = useState("");
@@ -81,7 +88,7 @@ const SharedLayout = ({ children }) => {
         />
         <Item
           title="Turbidity"
-          content={`${tankData.turbidity} NTC`}
+          content={`${turbidity}`}
           icon={<Droplet size="35" />}
         />
       </div>

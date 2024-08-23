@@ -4,19 +4,17 @@ import express from "express";
 import mongoose from "mongoose";
 import http from "http";
 import { Server } from "socket.io";
-import pkg from "mongoose";
-const { ServerApiVersion } = pkg;
 import passport from "passport";
 import cors from "cors";
-import fetch from "node-fetch";
-import jwt from "jsonwebtoken";
 
-const jwtSecret = process.env.JWT_SECRET;
-import passportLocalMongoose from "passport-local-mongoose";
+import { publishData, subscribeToTopic } from "./mqttClient.js"; // Mqtt functions
 
-const thingSpeakChannel = process.env.CHANNEL_ID;
-const thingSpeakReadKey = process.env.READ_KEY;
-const thingSpeakWriteKey = process.env.WRITE_KEY;
+//models
+import User from "./models/User.js";
+import Tank from "./models/Tank.js";
+import History from "./models/History.js";
+import Notification from "./models/Notification.js";
+import Usage from "./models/Usage.js";
 
 const port = process.env.PORT || 3001;
 
@@ -25,11 +23,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Mongo Connection
+// MongoDB connection
 const uri = process.env.MONGO_URI;
-
 mongoose.set("strictQuery", true);
-
 mongoose
   .connect(uri, {
     serverApi: {
@@ -38,7 +34,7 @@ mongoose
     },
   })
   .then(() => {
-    console.log("connected to dB");
+    console.log("Connected to DB");
   })
   .catch((err) => {
     console.error(err);
@@ -51,103 +47,64 @@ app.use(express.urlencoded({ extended: true }));
 const devOrigin = "http://localhost:3001";
 const prodOrigin = "https://waterwatch-seven.vercel.app";
 
-// Routes
-const options = {
+const corsOptions = {
   origin: process.env.NODE_ENV === "development" ? devOrigin : prodOrigin,
   credentials: true,
   exposedHeaders: ["Authorization"],
   methods: ["GET", "POST", "DELETE", "PUT"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+app.use(cors(corsOptions));
 
-app.use(cors(options));
-
-import User from "./models/User.js";
-import Tank from "./models/Tank.js";
-import History from "./models/History.js";
-import Notification from "./models/Notification.js";
-import Usage from "./models/Usage.js";
-
-// Passport config
+// Passport configuration
 passport.use(User.createStrategy());
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // socket.io connection
 io.on("connection", (socket) => {
+  console.log("A user connected");
+
   let waterLevel = 0;
   let temp = 0;
   let turbidity = 0;
   let leakage = false;
   let pumpState = false;
-  const fetchThingSpeakData = async () => {
-    try {
-      /*
-      const response = await fetch(
-        `https://api.thingspeak.com/channels/${thingSpeakChannel}/feeds.json?api_key=${thingSpeakReadKey}&results=1`,
-        { method: "GET" }
-      );
-      const responseData = await response.json();
-      console.log(responseData);
-  
-      waterLevel = parseInt(responseData.feeds[0].field1);
-      temp = parseInt(responseData.feeds[0].field2);
-      turbidity = parseInt(responseData.feeds[0].field3);
-      pumpStatus = parseInt(responseData.feeds[0].field4);
-      leakageStatus = parseInt(responseData.feeds[0].field5);
-      */
 
-      // Generating random values for testing
-      waterLevel = Math.floor(Math.random() * 26);
-      temp = Math.floor(Math.random() * 41);
-      turbidity = Math.floor(Math.random() * 11);
-      const data = {
-        waterLevel,
-        temp,
-        turbidity,
-        pumpState,
-        leakage,
-      };
-      //console.log(data);
+  subscribeToTopic("waterwatch/data", (topic, message) => {
+    console.log("Received message from MQTT/ESP32:", message);
 
-      socket.emit("tankData", data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const returnData = JSON.parse(message.toString());
 
-  fetchThingSpeakData();
+    waterLevel = Math.floor(returnData.waterLevel);
+    temp = Math.floor(returnData.temp);
+    turbidity = Math.floor(returnData.turbidity);
+    pumpState = returnData.pumpState;
 
-  const intervalId = setInterval(fetchThingSpeakData, 9000);
+    const data = {
+      waterLevel,
+      temp,
+      turbidity,
+      pumpState,
+      leakage,
+    };
+    console.log(data);
+    socket.emit("tankData", data);
+  });
 
+  // Handle toggling the pump state
   socket.on("togglePump", () => {
     pumpState = !pumpState;
     socket.emit("pumpStateChanged", pumpState);
-    /*const url = `https://api.thingspeak.com/update?api_key=${thingSpeakWriteKey}&field4=${pumpState}`;
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to write data to ThingSpeak");
-        }
-        console.log("Trigger sent");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });*/
+    const state = pumpState ? 1 : 0;
+    publishData("waterwatch/pumpstate", JSON.stringify({ state }));
   });
-
-  socket.on("connect_error", (err) => {
-    console.log(`connect_error due to ${err.message}`);
-  });
-
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    clearInterval(intervalId);
   });
 });
 
-//import routes
+// Import and use routes
 import userRouter from "./routes/user-routes.js";
 import tankRouter from "./routes/tank-routes.js";
 import historyRouter from "./routes/history-routes.js";
@@ -162,10 +119,11 @@ app.use("/notification", notificationRouter);
 app.use("/usage", usageRouter);
 app.use("/password", passwordRouter);
 
-app.use("/", (req, res, next) => {
-  res.send("This is waterwatch");
+app.use("/", (req, res) => {
+  res.send("This is WaterWatch");
 });
 
+// Start the server
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
