@@ -39,8 +39,10 @@ const SharedLayout = ({ children }) => {
 
   if (tankData.turbidity >= 3000) {
     turbidity = "Dirty";
-  } else if (tankData.turbidity < 3000) {
+  } else if (tankData.turbidity > 0 && tankData.turbidity < 3000) {
     turbidity = "Clean";
+  } else if (tankData.turbidity === 0) {
+    turbidity = "No Data";
   }
   useEffect(() => {
     tankData.leakage
@@ -70,28 +72,36 @@ const SharedLayout = ({ children }) => {
   return (
     <div className="container relative overflow-y-hidden">
       <TopBar />
-      <div className="md:shadow-md lg:shadow-md bg-white w-full flex p-1 md:p-0 lg:p-0 border-b-0.1">
-        <Item
-          title="Liters Used"
-          content={literUsed}
-          icon={<Droplets size="35" />}
-        />
-        <Item
-          title="Leakage"
-          content={leakageStatus}
-          icon={<MilkOff size="35" />}
-        />
-        <Item
-          title="Temperature"
-          content={`${tankData.temp} C`}
-          icon={<Thermometer size="35" />}
-        />
-        <Item
-          title="Turbidity"
-          content={`${turbidity}`}
-          icon={<Droplet size="35" />}
-        />
+      <div className="md:shadow-md lg:shadow-md bg-white w-full flex flex-col p-1 md:p-0 lg:p-0 border-b-0.1">
+        <div className="md:shadow-md lg:shadow-md bg-white w-full flex p-1 md:p-0 lg:p-0 border-b-0.1">
+          <Item
+            title="Liters Used"
+            content={literUsed}
+            icon={<Droplets size="35" />}
+          />
+          <Item
+            title="Leakage"
+            content={leakageStatus}
+            icon={<MilkOff size="35" />}
+          />
+          <Item
+            title="Temperature"
+            content={`${tankData.temp} C`}
+            icon={<Thermometer size="35" />}
+          />
+          <Item
+            title="Turbidity"
+            content={`${turbidity}`}
+            icon={<Droplet size="35" />}
+          />
+        </div>
+        {tankData.sysState === "offline" && (
+          <div className="bg-red-500 sticky top-0 flex justify-center text-white">
+            <p>System is offline</p>
+          </div>
+        )}
       </div>
+
       <MobileMenu>
         <MobileMenuItem
           text="Prediction"

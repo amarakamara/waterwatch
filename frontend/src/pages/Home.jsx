@@ -57,10 +57,27 @@ function Home() {
   useEffect(() => {
     if (socket) {
       socket.on("tankData", (responseData) => {
-        const { waterLevel, temp, turbidity, pumpState, leakage } =
+        const { waterLevel, temp, turbidity, pumpState, leakage, sysState } =
           responseData;
+
+        const data = {
+          waterLevel: waterLevel,
+          temp: temp,
+          turbidity: turbidity,
+          pumpState: pumpState,
+          leakage: leakage,
+          sysState,
+        };
+        console.log("Data being received at home:", data);
         dispatch(
-          setTankData({ waterLevel, temp, turbidity, pumpState, leakage })
+          setTankData({
+            waterLevel,
+            temp,
+            turbidity,
+            pumpState,
+            leakage,
+            sysState,
+          })
         );
       });
 

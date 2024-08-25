@@ -57,7 +57,7 @@ export default function Register() {
         },
         body: JSON.stringify({
           name: registerInfo.name,
-          email: registerInfo.email,
+          username: registerInfo.email,
           password: registerInfo.password,
         }),
       });

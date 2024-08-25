@@ -22,7 +22,8 @@ export default function PumpControl() {
   const dispatch = useDispatch();
   const tankData = useSelector((state) => state.tank.tankinfo);
   const token = useSelector((state) => state.auth.token);
-  const pumpState = useSelector((state) => state.tank.pump);
+  const pumpState = useSelector((state) => state.tank.tankinfo.pumpState);
+  console.log("Pump state being received :", pumpState);
   const [startWaterLevel, setStartWaterLevel] = useState(null);
   const [endWaterLevel, setEndWaterLevel] = useState(null);
 

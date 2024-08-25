@@ -18,8 +18,8 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const [loginInfo, setLoginInfo] = useState({
-    username: "",
-    password: "",
+    username: "kamaraamara8507@gmail.com",
+    password: "Project123",
   });
 
   const [showMessage, setShowMessage] = useState(false);
@@ -57,7 +57,7 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: loginInfo.username,
+          username: loginInfo.username,
           password: loginInfo.password,
         }),
       });
