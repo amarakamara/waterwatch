@@ -9,7 +9,7 @@ import cors from "cors";
 
 import { publishData, subscribeToTopic } from "./mqttClient.js"; // Mqtt functions
 
-//models
+// Models
 import User from "./models/User.js";
 import Tank from "./models/Tank.js";
 import History from "./models/History.js";
@@ -70,10 +70,38 @@ io.on("connection", (socket) => {
   let turbidity = 0;
   let leakage = false;
   let pumpState = false;
+  let offlineTimeout;
 
+  // Function to set the system to "offline"
+  const setOfflineState = () => {
+    waterLevel = 0;
+    temp = 0;
+    turbidity = 0;
+    //pumpState = false;
+    leakage = false;
+
+    const data = {
+      waterLevel,
+      temp,
+      turbidity,
+      pumpState,
+      leakage,
+      sysState: "offline",
+    };
+
+    socket.emit("tankData", data);
+    console.log("Hardware is offline, setting values to 0");
+  };
+
+  // Function to reset the "offline" timeout
+  const resetOfflineTimeout = () => {
+    clearTimeout(offlineTimeout);
+    offlineTimeout = setTimeout(setOfflineState, 10000);
+  };
+
+  // Subscribe to MQTT topic
   subscribeToTopic("waterwatch/data", (topic, message) => {
-    console.log("Received message from MQTT/ESP32:", message);
-
+    //console.log("Received message from MQTT/ESP32:", message);
     const returnData = JSON.parse(message.toString());
 
     waterLevel = Math.floor(returnData.waterLevel);
@@ -87,20 +115,27 @@ io.on("connection", (socket) => {
       turbidity,
       pumpState,
       leakage,
+      sysState: "online",
     };
-    console.log(data);
+
     socket.emit("tankData", data);
+    resetOfflineTimeout();
   });
+
+  resetOfflineTimeout();
 
   // Handle toggling the pump state
   socket.on("togglePump", () => {
     pumpState = !pumpState;
-    socket.emit("pumpStateChanged", pumpState);
     const state = pumpState ? 1 : 0;
     publishData("waterwatch/pumpstate", JSON.stringify({ state }));
+    socket.emit("pumpStateChanged", pumpState);
+    resetOfflineTimeout();
   });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
+    clearTimeout(offlineTimeout);
   });
 });
 
