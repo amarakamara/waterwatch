@@ -128,6 +128,7 @@ io.on("connection", (socket) => {
   socket.on("togglePump", () => {
     pumpState = !pumpState;
     const state = pumpState ? 1 : 0;
+    console.log("Sent state to esp32", state);
     publishData("waterwatch/pumpstate", JSON.stringify({ state }));
     socket.emit("pumpStateChanged", pumpState);
     resetOfflineTimeout();
