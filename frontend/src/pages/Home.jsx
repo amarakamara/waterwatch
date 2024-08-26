@@ -89,7 +89,7 @@ function Home() {
     }
   }, [socket]);
 
-  /*handle notifications
+  //handle notifications
   const createNotification = (subject, message) => {
     const notification = {
       subject,
@@ -98,31 +98,24 @@ function Home() {
     };
     const success = addNotification(token, notification);
     if (success) {
-      dispatch(setNotificationAlert(true))
+      dispatch(setNotificationAlert(true));
     } else {
-      dispatch(setNotificationAlert(false))
+      dispatch(setNotificationAlert(false));
     }
   };
-
 
   //adds a notification for high turbidity level
   useEffect(() => {
     if (tankData.turbidity !== undefined) {
-      if (tankData.turbidity > 5) {
-        createNotification(
-          "Critically High Turbidity Alert",
-          `Alert: Water turbidity level is dangerously high. Current turbidity: ${tankData.turbidity}. Immediate action required.`
-        );
-      } else if (tankData.turbidity > 3) {
+      if (tankData.turbidity > 3000) {
         createNotification(
           "High Turbidity Alert",
-          `Alert: Water turbidity level has exceeded the safe threshold. Current turbidity: ${tankData.turbidity}. Please check the water quality.`
+          `Alert: Water turbidity level is high. Current turbidity: ${tankData.turbidity}. Immediate action required.`
         );
       }
     }
   }, [tankData.turbidity]);
 
-  /*
   //adds a notification for high temperature
   useEffect(() => {
     if (tankData.temperature !== undefined) {
@@ -139,6 +132,7 @@ function Home() {
       }
     }
   }, [tankData.temperature]);
+
   //adds a notification for leakage
   useEffect(() => {
     if (tankData.leakage !== undefined && tankData.leakage) {
@@ -148,7 +142,7 @@ function Home() {
       );
     }
   }, [tankData.leakage]);
-  */
+
   return (
     <SharedLayout>
       <MainContent />
