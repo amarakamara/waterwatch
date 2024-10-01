@@ -4,7 +4,7 @@
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
-        <mxCell id="tOpxADcuduA2cvzw2Qei-0" value="&lt;font color=&quot;#00cc00&quot;&gt;&lt;b&gt;Perception + Network Layer&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;div&gt;sensors, controllers,&lt;/div&gt;&lt;div&gt;actuators&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tOpxADcuduA2cvzw2Qei-0" value="&lt;font color=&quot;#00cc00&quot;&gt;&lt;b&gt;Perception&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;div&gt;sensors, controllers,&lt;/div&gt;&lt;div&gt;actuators&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="60" y="230" width="130" height="130" as="geometry" />
         </mxCell>
         <mxCell id="tOpxADcuduA2cvzw2Qei-1" value="&lt;b&gt;&lt;font color=&quot;#00cc00&quot;&gt;MongoDB database&lt;/font&gt;&lt;/b&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
