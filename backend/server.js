@@ -7,7 +7,8 @@ import { Server } from "socket.io";
 import passport from "passport";
 import cors from "cors";
 
-import { publishData, subscribeToTopic } from "./mqttClient.js"; // Mqtt functions
+// Import MQTT functions but comment them out
+// import { publishData, subscribeToTopic } from "./mqttClient.js";
 
 // Models
 import User from "./models/User.js";
@@ -72,42 +73,13 @@ io.on("connection", (socket) => {
   let pumpState = false;
   let offlineTimeout;
 
-  // Function to set the system to "offline"
-  const setOfflineState = () => {
-    waterLevel = 0;
-    temp = 0;
-    turbidity = 0;
-    //pumpState = false;
-    leakage = false;
-
-    const data = {
-      waterLevel,
-      temp,
-      turbidity,
-      pumpState,
-      leakage,
-      sysState: "offline",
-    };
-
-    socket.emit("tankData", data);
-    console.log("Hardware is offline, setting values to 0");
-  };
-
-  // Function to reset the "offline" timeout
-  const resetOfflineTimeout = () => {
-    clearTimeout(offlineTimeout);
-    offlineTimeout = setTimeout(setOfflineState, 10000);
-  };
-
-  // Subscribe to MQTT topic
-  subscribeToTopic("waterwatch/data", (topic, message) => {
-    //console.log("Received message from MQTT/ESP32:", message);
-    const returnData = JSON.parse(message.toString());
-
-    waterLevel = Math.floor(returnData.waterLevel);
-    temp = Math.floor(returnData.temp);
-    turbidity = Math.floor(returnData.turbidity);
-    pumpState = returnData.pumpState;
+  // Function to set random values
+  const generateRandomValues = () => {
+    waterLevel = Math.floor(Math.random() * 101); 
+    temp = Math.floor(Math.random() * 35) + 10; 
+    turbidity = Math.floor(Math.random() * 100); 
+    leakage = Math.random() < 0.2; 
+    pumpState = Math.random() < 0.5; 
 
     const data = {
       waterLevel,
@@ -119,24 +91,25 @@ io.on("connection", (socket) => {
     };
 
     socket.emit("tankData", data);
-    resetOfflineTimeout();
-  });
+    console.log("Sent random data to client:", data);
+  };
 
-  resetOfflineTimeout();
+  // Periodically send random data
+  const randomDataInterval = setInterval(generateRandomValues, 5000); // Send data every 5 seconds
 
   // Handle toggling the pump state
   socket.on("togglePump", () => {
     pumpState = !pumpState;
     const state = pumpState ? 1 : 0;
-    console.log("Sent state to esp32", state);
-    publishData("waterwatch/pumpstate", JSON.stringify({ state }));
+    console.log("Pump state toggled:", state);
+    // Commenting out MQTT publish functionality
+    // publishData("waterwatch/pumpstate", JSON.stringify({ state }));
     socket.emit("pumpStateChanged", pumpState);
-    resetOfflineTimeout();
   });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    clearTimeout(offlineTimeout);
+    clearInterval(randomDataInterval); // Stop sending data when the user disconnects
   });
 });
 
