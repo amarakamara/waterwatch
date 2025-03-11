@@ -75,11 +75,11 @@ io.on("connection", (socket) => {
 
   // Function to set random values
   const generateRandomValues = () => {
-    waterLevel = Math.floor(Math.random() * 101); 
-    temp = Math.floor(Math.random() * 35) + 10; 
-    turbidity = Math.floor(Math.random() * 100); 
-    leakage = Math.random() < 0.2; 
-    pumpState = Math.random() < 0.5; 
+    waterLevel = Math.floor(Math.random() * 101);
+    temp = Math.floor(Math.random() * 35) + 10;
+    turbidity = Math.floor(Math.random() * 100);
+    leakage = Math.random() < 0.2;
+    pumpState = Math.random() < 0.5;
 
     const data = {
       waterLevel,
