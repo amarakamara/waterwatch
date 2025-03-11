@@ -7,8 +7,8 @@ import { Server } from "socket.io";
 import passport from "passport";
 import cors from "cors";
 
-// Import MQTT functions but comment them out
-// import { publishData, subscribeToTopic } from "./mqttClient.js";
+// Import MQTT functions and uncomment them
+import { publishData, subscribeToTopic } from "./mqttClient.js";
 
 // Models
 import User from "./models/User.js";
@@ -73,7 +73,8 @@ io.on("connection", (socket) => {
   let pumpState = false;
   let offlineTimeout;
 
-  // Function to set random values
+  // Function to set random values - commented out
+  /*
   const generateRandomValues = () => {
     waterLevel = Math.floor(Math.random() * 101);
     temp = Math.floor(Math.random() * 35) + 10;
@@ -93,23 +94,24 @@ io.on("connection", (socket) => {
     socket.emit("tankData", data);
     console.log("Sent random data to client:", data);
   };
+  */
 
-  // Periodically send random data
-  const randomDataInterval = setInterval(generateRandomValues, 5000); // Send data every 5 seconds
+  // Periodically send random data - commented out
+  // const randomDataInterval = setInterval(generateRandomValues, 5000); // Send data every 5 seconds
 
   // Handle toggling the pump state
   socket.on("togglePump", () => {
     pumpState = !pumpState;
     const state = pumpState ? 1 : 0;
     console.log("Pump state toggled:", state);
-    // Commenting out MQTT publish functionality
-    // publishData("waterwatch/pumpstate", JSON.stringify({ state }));
+    // Uncommented MQTT publish functionality
+    publishData("waterwatch/pumpstate", JSON.stringify({ state }));
     socket.emit("pumpStateChanged", pumpState);
   });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    clearInterval(randomDataInterval); // Stop sending data when the user disconnects
+    // clearInterval(randomDataInterval); // Commented out as randomDataInterval is no longer used
   });
 });
 
