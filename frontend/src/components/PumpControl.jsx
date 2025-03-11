@@ -68,7 +68,7 @@ export default function PumpControl() {
           PUMP CONTROL <SlidersVertical />
         </h2>
         <div className="w-full h-full flex flex-col justify-even items-center">
-          <div className="w-full h-auto mt-10 flex flex-col lg:flex-row-reverse justify-center items-center pr-8 gap-12">
+          <div className="w-full h-auto mt-10 flex flex-col lg:flex-row-reverse justify-center items-center lg:pr-8 md:pr-8 gap-12">
             <div
               className={`w-full flex flex-col justify-center text-center h-auto ${
                 pumpState ? "bg-green-600" : "bg-red-500"
@@ -79,14 +79,14 @@ export default function PumpControl() {
               </h2>
               <h3 className="text-lg">{pumpState ? "OPEN" : "CLOSED"}</h3>
             </div>
-            <div className="w-full flex justify-center text-center pt-4 lg:pt-0">
+            <div className="w-full flex justify-center text-center">
               <button
                 onClick={handleClick}
-                className={`w-10 h-10 p-16  text-white ${
+                className={`w-15 h-15 sm:w-15 sm:h-15 lg:w-10 md:w-10 lg:h-10 md:h-10 p-16  text-white ${
                   pumpState ? "bg-red-700" : "bg-green-600"
                 } shadow-md border-8 border-red-200 border-opacity-2 rounded-full m-1 md:m-3 text-center flex items-center justify-center`}
               >
-                <h2 className="font-bold text-md md:font-semibold whitespace-nowrap">
+                <h2 className="font-bold text-xl md:font-semibold whitespace-nowrap">
                   {pumpState ? "OFF" : "ON"}
                 </h2>
               </button>
