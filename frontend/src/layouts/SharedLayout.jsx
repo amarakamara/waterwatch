@@ -73,7 +73,7 @@ const SharedLayout = ({ children }) => {
     <div className="container relative overflow-y-hidden">
       <TopBar />
       <div className="md:shadow-md lg:shadow-md bg-white w-full flex flex-col p-1 md:p-0 lg:p-0 border-b-0.1">
-        <div className="md:shadow-md lg:shadow-md bg-white w-full flex p-1 md:p-0 lg:p-0 border-b-0.1">
+        <div className="md:shadow-md lg:shadow-md bg-white w-full flex justify-evenly py-2 px-1 md:py-3 lg:py-3 border-b-0.1 gap-1">
           <Item
             title="Liters Used"
             content={literUsed}
