@@ -46,7 +46,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const devOrigin = "http://localhost:3001";
-const prodOrigin = "https://waterwatch-seven.vercel.app";
+const prodOrigin = "https://waterwatch-flame.vercel.app";
 
 const corsOptions = {
   origin: process.env.NODE_ENV === "development" ? devOrigin : prodOrigin,
